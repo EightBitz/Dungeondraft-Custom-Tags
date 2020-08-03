@@ -24,6 +24,8 @@ Partial Class CustomTagsForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.AssetsGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.SearchTextBox = New System.Windows.Forms.TextBox()
         Me.SortAssetsComboBox = New System.Windows.Forms.ComboBox()
         Me.ShowAssetsComboBox = New System.Windows.Forms.ComboBox()
         Me.TagComboBox = New System.Windows.Forms.ComboBox()
@@ -53,6 +55,8 @@ Partial Class CustomTagsForm
         '
         'AssetsGroupBox
         '
+        Me.AssetsGroupBox.Controls.Add(Me.Label1)
+        Me.AssetsGroupBox.Controls.Add(Me.SearchTextBox)
         Me.AssetsGroupBox.Controls.Add(Me.SortAssetsComboBox)
         Me.AssetsGroupBox.Controls.Add(Me.ShowAssetsComboBox)
         Me.AssetsGroupBox.Controls.Add(Me.TagComboBox)
@@ -61,10 +65,26 @@ Partial Class CustomTagsForm
         Me.AssetsGroupBox.Margin = New System.Windows.Forms.Padding(4)
         Me.AssetsGroupBox.Name = "AssetsGroupBox"
         Me.AssetsGroupBox.Padding = New System.Windows.Forms.Padding(4)
-        Me.AssetsGroupBox.Size = New System.Drawing.Size(568, 518)
+        Me.AssetsGroupBox.Size = New System.Drawing.Size(568, 548)
         Me.AssetsGroupBox.TabIndex = 3
         Me.AssetsGroupBox.TabStop = False
         Me.AssetsGroupBox.Text = "Assets"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(7, 55)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(69, 16)
+        Me.Label1.TabIndex = 5
+        Me.Label1.Text = "Search for"
+        '
+        'SearchTextBox
+        '
+        Me.SearchTextBox.Location = New System.Drawing.Point(82, 52)
+        Me.SearchTextBox.Name = "SearchTextBox"
+        Me.SearchTextBox.Size = New System.Drawing.Size(479, 22)
+        Me.SearchTextBox.TabIndex = 3
         '
         'SortAssetsComboBox
         '
@@ -80,7 +100,7 @@ Partial Class CustomTagsForm
         '
         Me.ShowAssetsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ShowAssetsComboBox.FormattingEnabled = True
-        Me.ShowAssetsComboBox.Items.AddRange(New Object() {"Show All", "Show Selected", "Show Unselected"})
+        Me.ShowAssetsComboBox.Items.AddRange(New Object() {"Show All", "Show Selected", "Show Unselected", "Search"})
         Me.ShowAssetsComboBox.Location = New System.Drawing.Point(202, 22)
         Me.ShowAssetsComboBox.Name = "ShowAssetsComboBox"
         Me.ShowAssetsComboBox.Size = New System.Drawing.Size(142, 24)
@@ -101,11 +121,11 @@ Partial Class CustomTagsForm
         Me.AssetDataGridView.AllowUserToAddRows = False
         Me.AssetDataGridView.AllowUserToDeleteRows = False
         Me.AssetDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.AssetDataGridView.Location = New System.Drawing.Point(7, 51)
+        Me.AssetDataGridView.Location = New System.Drawing.Point(7, 80)
         Me.AssetDataGridView.Name = "AssetDataGridView"
         Me.AssetDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.AssetDataGridView.Size = New System.Drawing.Size(554, 460)
-        Me.AssetDataGridView.TabIndex = 3
+        Me.AssetDataGridView.TabIndex = 4
         '
         'TagSetsAndTagsGroupBox
         '
@@ -117,7 +137,7 @@ Partial Class CustomTagsForm
         Me.TagSetsAndTagsGroupBox.Controls.Add(Me.TagSetListBox)
         Me.TagSetsAndTagsGroupBox.Location = New System.Drawing.Point(12, 50)
         Me.TagSetsAndTagsGroupBox.Name = "TagSetsAndTagsGroupBox"
-        Me.TagSetsAndTagsGroupBox.Size = New System.Drawing.Size(504, 518)
+        Me.TagSetsAndTagsGroupBox.Size = New System.Drawing.Size(504, 548)
         Me.TagSetsAndTagsGroupBox.TabIndex = 2
         Me.TagSetsAndTagsGroupBox.TabStop = False
         Me.TagSetsAndTagsGroupBox.Text = "Tag Sets and Tags"
@@ -145,7 +165,7 @@ Partial Class CustomTagsForm
         Me.TagCheckedListBox.FormattingEnabled = True
         Me.TagCheckedListBox.Location = New System.Drawing.Point(244, 81)
         Me.TagCheckedListBox.Name = "TagCheckedListBox"
-        Me.TagCheckedListBox.Size = New System.Drawing.Size(254, 429)
+        Me.TagCheckedListBox.Size = New System.Drawing.Size(254, 446)
         Me.TagCheckedListBox.Sorted = True
         Me.TagCheckedListBox.TabIndex = 5
         '
@@ -185,7 +205,7 @@ Partial Class CustomTagsForm
         Me.TagSetListBox.ItemHeight = 16
         Me.TagSetListBox.Location = New System.Drawing.Point(6, 81)
         Me.TagSetListBox.Name = "TagSetListBox"
-        Me.TagSetListBox.Size = New System.Drawing.Size(229, 420)
+        Me.TagSetListBox.Size = New System.Drawing.Size(229, 436)
         Me.TagSetListBox.Sorted = True
         Me.TagSetListBox.TabIndex = 2
         '
@@ -211,7 +231,7 @@ Partial Class CustomTagsForm
         '
         'RevertChangesButton
         '
-        Me.RevertChangesButton.Location = New System.Drawing.Point(12, 574)
+        Me.RevertChangesButton.Location = New System.Drawing.Point(12, 605)
         Me.RevertChangesButton.Name = "RevertChangesButton"
         Me.RevertChangesButton.Size = New System.Drawing.Size(504, 40)
         Me.RevertChangesButton.TabIndex = 4
@@ -220,7 +240,7 @@ Partial Class CustomTagsForm
         '
         'SaveChangesButton
         '
-        Me.SaveChangesButton.Location = New System.Drawing.Point(523, 574)
+        Me.SaveChangesButton.Location = New System.Drawing.Point(530, 605)
         Me.SaveChangesButton.Name = "SaveChangesButton"
         Me.SaveChangesButton.Size = New System.Drawing.Size(568, 40)
         Me.SaveChangesButton.TabIndex = 5
@@ -240,7 +260,7 @@ Partial Class CustomTagsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1104, 626)
+        Me.ClientSize = New System.Drawing.Size(1104, 657)
         Me.Controls.Add(Me.AssetFolderBrowseButton)
         Me.Controls.Add(Me.SaveChangesButton)
         Me.Controls.Add(Me.RevertChangesButton)
@@ -251,8 +271,9 @@ Partial Class CustomTagsForm
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "CustomTagsForm"
-        Me.Text = "EightBitz's Custom Tags Tool - Version 0.6"
+        Me.Text = "EightBitz's Custom Tags Tool - Version 0.7"
         Me.AssetsGroupBox.ResumeLayout(False)
+        Me.AssetsGroupBox.PerformLayout()
         CType(Me.AssetDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TagSetsAndTagsGroupBox.ResumeLayout(False)
         Me.TagSetsAndTagsGroupBox.PerformLayout()
@@ -284,4 +305,6 @@ Partial Class CustomTagsForm
     Friend WithEvents ShowAssetsComboBox As ComboBox
     Friend WithEvents AssetFolderBrowserDialog As FolderBrowserDialog
     Friend WithEvents AssetFolderBrowseButton As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents SearchTextBox As TextBox
 End Class

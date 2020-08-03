@@ -151,7 +151,6 @@ Module AssetInfoModule
                 CustomTagsForm.AssetDataGridView.Rows(RowIndex).Cells(1).ToolTipText = Asset.FilePath
                 RowIndex += 1
             Next
-
             CustomTagsForm.AssetDataGridView.Sort(CustomTagsForm.AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Ascending)
         Else
             Dim WarningMessage As String

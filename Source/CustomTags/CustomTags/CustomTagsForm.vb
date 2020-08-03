@@ -144,6 +144,8 @@ Public Class CustomTagsForm
         TagSetListBox.Enabled = False
 
         AssetDataGridView.Enabled = False
+
+        SearchTextBox.Enabled = False
     End Sub
 
     Private Sub RevertChangesButton_Click(sender As Object, e As EventArgs) Handles RevertChangesButton.Click
@@ -286,16 +288,19 @@ Public Class CustomTagsForm
                 End If
             End If
         End If
-
     End Sub
 
     Private Sub ShowAssetsComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ShowAssetsComboBox.SelectedIndexChanged
         Select Case ShowAssetsComboBox.SelectedItem
             Case "Show All"
+                SearchTextBox.Text = ""
+                SearchTextBox.Enabled = False
                 For Each row As DataGridViewRow In AssetDataGridView.Rows
                     row.Visible = True
                 Next
             Case "Show Selected"
+                SearchTextBox.Text = ""
+                SearchTextBox.Enabled = False
                 For Each row As DataGridViewRow In AssetDataGridView.Rows
                     If row.Cells("Select").Value Then
                         row.Visible = True
@@ -304,6 +309,8 @@ Public Class CustomTagsForm
                     End If
                 Next
             Case "Show Unselected"
+                SearchTextBox.Text = ""
+                SearchTextBox.Enabled = False
                 For Each row As DataGridViewRow In AssetDataGridView.Rows
                     If row.Cells("Select").Value Then
                         row.Visible = False
@@ -311,8 +318,9 @@ Public Class CustomTagsForm
                         row.Visible = True
                     End If
                 Next
+            Case "Search"
+                SearchTextBox.Enabled = True
         End Select
-
     End Sub
 
     Private Sub SortAssetsComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SortAssetsComboBox.SelectedIndexChanged
@@ -326,6 +334,19 @@ Public Class CustomTagsForm
             Case "Sort by Selected (Descending)"
                 AssetDataGridView.Sort(AssetDataGridView.Columns("Select"), System.ComponentModel.ListSortDirection.Descending)
         End Select
+    End Sub
+
+    Private Sub SearchTextBox_LostFocus(sender As Object, e As EventArgs) Handles SearchTextBox.LostFocus
+        Dim search As String = SearchTextBox.Text
+        If search <> "" Then
+            For Each row As DataGridViewRow In AssetDataGridView.Rows
+                If row.Cells("FileName").Value.ToString.ToLower.Contains(search.ToLower) Then
+                    row.Visible = True
+                Else
+                    row.Visible = False
+                End If
+            Next
+        End If
     End Sub
 End Class
 
