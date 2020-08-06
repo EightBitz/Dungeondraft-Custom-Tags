@@ -16,7 +16,11 @@ Module TagInfoModule
     End Function
     Public Function GetTagsFromSubfolders(AssetFolderName As String, Source As String)
         Dim ObjectPath As String = Source
-        Dim ColorablePath As String
+        '
+        ' 8/5/2020 - Added by Noral
+        ' Fixed initialization issue
+        '
+        Dim ColorablePath As String = ""
 
         'Get the exact, case-sensitive path name for the textures\objects\colorable folder.
         Dim ColorablePathArray = From subfolder In My.Computer.FileSystem.GetDirectories(ObjectPath.ToString())
@@ -35,7 +39,11 @@ Module TagInfoModule
         Dim FolderObject As New System.Collections.Specialized.OrderedDictionary
         Dim ColorableObject As New System.Collections.Specialized.OrderedDictionary
         Dim SetObject As New System.Collections.Specialized.OrderedDictionary
-        Dim TagSetMembers() As String
+        '
+        ' 8/5/2020 - Added by Noral
+        ' Commented out since not used
+        '
+        'Dim TagSetMembers() As String
 
         'Get the list of subfolders in textures\objects.
         Dim SubFolders As String() = Directory.GetDirectories(ObjectPath)
@@ -56,7 +64,11 @@ Module TagInfoModule
         Next
 
         'If a textures\objects\colorable folder exists, get the list of files from textures\objects\colorable.
-        Dim RootColorableFiles As String()
+        '
+        ' 8/5/2020 - Added by Noral
+        ' Fixed initialization issue
+        '
+        Dim RootColorableFiles As String() = {}
         If My.Computer.FileSystem.DirectoryExists(ColorablePath) Then
             RootColorableFiles = Directory.GetFiles(ColorablePath)
 
@@ -225,7 +237,6 @@ Module TagInfoModule
         Dim TagJSON = JsonConvert.DeserializeObject(JSONString)
 
         Return TagJSON
-        'Return TagJSON
     End Function
     Public Function GetTagInfo(Source As String)
         Dim AssetFolder As New AssetFolderObject

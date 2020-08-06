@@ -9,18 +9,33 @@ Module AssetInfoModule
         'Configure our columns for the data grid view.
         Dim SelectColumn As New DataGridViewCheckBoxColumn With {
             .HeaderText = "Select",
-            .Name = "Select"
+            .Name = "Select",
+            .Width = 70
         }
         CustomTagsForm.AssetDataGridView.Columns.Add(SelectColumn)
         CustomTagsForm.AssetDataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
+        '
+        ' 8/5/2020 - Added by Noral
+        ' .ImageLayout is needed to make sure thumbnail fits area
+        '
+        Dim ThumbnailColumn As New DataGridViewImageColumn With {
+            .HeaderText = "Thumbnail",
+            .Name = "Thumbnail",
+            .Visible = True,
+            .ImageLayout = DataGridViewImageCellLayout.Zoom,
+            .ReadOnly = True
+        }
+        CustomTagsForm.AssetDataGridView.Columns.Add(ThumbnailColumn)
+        CustomTagsForm.ThumbnailCheckBox.Checked = True
+
         Dim FileNameColumn As New DataGridViewTextBoxColumn With {
             .HeaderText = "File Name",
             .Name = "FileName",
+            .Width = 423,
             .ReadOnly = True
         }
         CustomTagsForm.AssetDataGridView.Columns.Add(FileNameColumn)
-        CustomTagsForm.AssetDataGridView.Columns("FileName").Width = 393
 
         Dim TagPathColumn As New DataGridViewTextBoxColumn With {
             .HeaderText = "Tag Path",
@@ -100,6 +115,10 @@ Module AssetInfoModule
         Return AssetList
     End Function
 
+    Public Function ImageCallBack() As Boolean
+        Return True
+    End Function
+
     Public Sub GetAssetInfo(Source As String, TagList As List(Of String))
         CreateAssetGridColumns()
         Dim FileTypes() As String = {".bmp", ".dds", ".exr", ".hdr", ".jpg", ".jpeg", ".png", ".tga", ".svg", ".svgz", ".webp"}
@@ -113,9 +132,13 @@ Module AssetInfoModule
             Dim MissingAssets As New List(Of AssetObject)
             Dim AllAssets As New List(Of AssetObject)
 
-            If FileList.Count > 1 Then FileAssets = ParseFileList(Source, FileList)
+            '
+            ' 8/5/2020 - Added by Noral
+            ' Changed conditional from ">" to ">=" to take into account only a single file in the directory
+            '
+            If FileList.Count >= 1 Then FileAssets = ParseFileList(Source, FileList)
 
-            If TagList.Count > 1 Then
+            If TagList.Count >= 1 Then
                 TagAssets = ParseTagList(Source, TagList)
                 MissingAssets = CheckForMissingFiles(Source, TagList)
             End If
@@ -146,9 +169,10 @@ Module AssetInfoModule
 
             Dim RowIndex As Integer = 0
             For Each Asset In AllAssets
-                Dim NewRow = {False, Asset.Name, Asset.TagPath, Asset.FilePath}
+                Dim NewRow = {False, Nothing, Asset.Name, Asset.TagPath, Asset.FilePath}
                 CustomTagsForm.AssetDataGridView.Rows.Add(NewRow)
-                CustomTagsForm.AssetDataGridView.Rows(RowIndex).Cells(1).ToolTipText = Asset.FilePath
+                CustomTagsForm.AssetDataGridView.Rows(RowIndex).Height = 60
+                'CustomTagsForm.AssetDataGridView.Rows(RowIndex).Cells("FileName").ToolTipText = Asset.FilePath
                 RowIndex += 1
             Next
             CustomTagsForm.AssetDataGridView.Sort(CustomTagsForm.AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Ascending)

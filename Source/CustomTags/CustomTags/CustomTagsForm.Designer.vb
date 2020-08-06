@@ -24,12 +24,16 @@ Partial Class CustomTagsForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.AssetsGroupBox = New System.Windows.Forms.GroupBox()
+        Me.ThumbnailCheckBox = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SearchTextBox = New System.Windows.Forms.TextBox()
         Me.SortAssetsComboBox = New System.Windows.Forms.ComboBox()
         Me.ShowAssetsComboBox = New System.Windows.Forms.ComboBox()
         Me.TagComboBox = New System.Windows.Forms.ComboBox()
         Me.AssetDataGridView = New System.Windows.Forms.DataGridView()
+        Me.AssetDataGridViewContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AssetDataGridViewCheckSelectedMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AssetDataGridViewUncheckSelectedMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TagSetsAndTagsGroupBox = New System.Windows.Forms.GroupBox()
         Me.AddTagTextBox = New System.Windows.Forms.TextBox()
         Me.AddTagButton = New System.Windows.Forms.Button()
@@ -48,6 +52,7 @@ Partial Class CustomTagsForm
         Me.AssetFolderBrowseButton = New System.Windows.Forms.Button()
         Me.AssetsGroupBox.SuspendLayout()
         CType(Me.AssetDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.AssetDataGridViewContextMenu.SuspendLayout()
         Me.TagSetsAndTagsGroupBox.SuspendLayout()
         Me.TagContextMenu.SuspendLayout()
         Me.TagSetContextMenu.SuspendLayout()
@@ -55,6 +60,7 @@ Partial Class CustomTagsForm
         '
         'AssetsGroupBox
         '
+        Me.AssetsGroupBox.Controls.Add(Me.ThumbnailCheckBox)
         Me.AssetsGroupBox.Controls.Add(Me.Label1)
         Me.AssetsGroupBox.Controls.Add(Me.SearchTextBox)
         Me.AssetsGroupBox.Controls.Add(Me.SortAssetsComboBox)
@@ -63,12 +69,23 @@ Partial Class CustomTagsForm
         Me.AssetsGroupBox.Controls.Add(Me.AssetDataGridView)
         Me.AssetsGroupBox.Location = New System.Drawing.Point(523, 50)
         Me.AssetsGroupBox.Margin = New System.Windows.Forms.Padding(4)
+        Me.AssetsGroupBox.MinimumSize = New System.Drawing.Size(568, 548)
         Me.AssetsGroupBox.Name = "AssetsGroupBox"
         Me.AssetsGroupBox.Padding = New System.Windows.Forms.Padding(4)
         Me.AssetsGroupBox.Size = New System.Drawing.Size(568, 548)
         Me.AssetsGroupBox.TabIndex = 3
         Me.AssetsGroupBox.TabStop = False
         Me.AssetsGroupBox.Text = "Assets"
+        '
+        'ThumbnailCheckBox
+        '
+        Me.ThumbnailCheckBox.AutoSize = True
+        Me.ThumbnailCheckBox.Location = New System.Drawing.Point(428, 54)
+        Me.ThumbnailCheckBox.Name = "ThumbnailCheckBox"
+        Me.ThumbnailCheckBox.Size = New System.Drawing.Size(133, 20)
+        Me.ThumbnailCheckBox.TabIndex = 4
+        Me.ThumbnailCheckBox.Text = "Show Thumbnails"
+        Me.ThumbnailCheckBox.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -83,7 +100,7 @@ Partial Class CustomTagsForm
         '
         Me.SearchTextBox.Location = New System.Drawing.Point(82, 52)
         Me.SearchTextBox.Name = "SearchTextBox"
-        Me.SearchTextBox.Size = New System.Drawing.Size(479, 22)
+        Me.SearchTextBox.Size = New System.Drawing.Size(262, 22)
         Me.SearchTextBox.TabIndex = 3
         '
         'SortAssetsComboBox
@@ -121,11 +138,31 @@ Partial Class CustomTagsForm
         Me.AssetDataGridView.AllowUserToAddRows = False
         Me.AssetDataGridView.AllowUserToDeleteRows = False
         Me.AssetDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.AssetDataGridView.ContextMenuStrip = Me.AssetDataGridViewContextMenu
         Me.AssetDataGridView.Location = New System.Drawing.Point(7, 80)
+        Me.AssetDataGridView.MinimumSize = New System.Drawing.Size(554, 460)
         Me.AssetDataGridView.Name = "AssetDataGridView"
         Me.AssetDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.AssetDataGridView.Size = New System.Drawing.Size(554, 460)
-        Me.AssetDataGridView.TabIndex = 4
+        Me.AssetDataGridView.TabIndex = 5
+        '
+        'AssetDataGridViewContextMenu
+        '
+        Me.AssetDataGridViewContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AssetDataGridViewCheckSelectedMenuItem, Me.AssetDataGridViewUncheckSelectedMenuItem})
+        Me.AssetDataGridViewContextMenu.Name = "AssetDataGridViewContextMenu"
+        Me.AssetDataGridViewContextMenu.Size = New System.Drawing.Size(168, 48)
+        '
+        'AssetDataGridViewCheckSelectedMenuItem
+        '
+        Me.AssetDataGridViewCheckSelectedMenuItem.Name = "AssetDataGridViewCheckSelectedMenuItem"
+        Me.AssetDataGridViewCheckSelectedMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AssetDataGridViewCheckSelectedMenuItem.Text = "Check Selected"
+        '
+        'AssetDataGridViewUncheckSelectedMenuItem
+        '
+        Me.AssetDataGridViewUncheckSelectedMenuItem.Name = "AssetDataGridViewUncheckSelectedMenuItem"
+        Me.AssetDataGridViewUncheckSelectedMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AssetDataGridViewUncheckSelectedMenuItem.Text = "Uncheck Selected"
         '
         'TagSetsAndTagsGroupBox
         '
@@ -136,6 +173,7 @@ Partial Class CustomTagsForm
         Me.TagSetsAndTagsGroupBox.Controls.Add(Me.AddTagSetTextBox)
         Me.TagSetsAndTagsGroupBox.Controls.Add(Me.TagSetListBox)
         Me.TagSetsAndTagsGroupBox.Location = New System.Drawing.Point(12, 50)
+        Me.TagSetsAndTagsGroupBox.MinimumSize = New System.Drawing.Size(504, 548)
         Me.TagSetsAndTagsGroupBox.Name = "TagSetsAndTagsGroupBox"
         Me.TagSetsAndTagsGroupBox.Size = New System.Drawing.Size(504, 548)
         Me.TagSetsAndTagsGroupBox.TabIndex = 2
@@ -164,6 +202,7 @@ Partial Class CustomTagsForm
         Me.TagCheckedListBox.ContextMenuStrip = Me.TagContextMenu
         Me.TagCheckedListBox.FormattingEnabled = True
         Me.TagCheckedListBox.Location = New System.Drawing.Point(244, 81)
+        Me.TagCheckedListBox.MinimumSize = New System.Drawing.Size(254, 446)
         Me.TagCheckedListBox.Name = "TagCheckedListBox"
         Me.TagCheckedListBox.Size = New System.Drawing.Size(254, 446)
         Me.TagCheckedListBox.Sorted = True
@@ -204,6 +243,7 @@ Partial Class CustomTagsForm
         Me.TagSetListBox.FormattingEnabled = True
         Me.TagSetListBox.ItemHeight = 16
         Me.TagSetListBox.Location = New System.Drawing.Point(6, 81)
+        Me.TagSetListBox.MinimumSize = New System.Drawing.Size(229, 436)
         Me.TagSetListBox.Name = "TagSetListBox"
         Me.TagSetListBox.Size = New System.Drawing.Size(229, 436)
         Me.TagSetListBox.Sorted = True
@@ -240,7 +280,7 @@ Partial Class CustomTagsForm
         '
         'SaveChangesButton
         '
-        Me.SaveChangesButton.Location = New System.Drawing.Point(530, 605)
+        Me.SaveChangesButton.Location = New System.Drawing.Point(523, 605)
         Me.SaveChangesButton.Name = "SaveChangesButton"
         Me.SaveChangesButton.Size = New System.Drawing.Size(568, 40)
         Me.SaveChangesButton.TabIndex = 5
@@ -260,7 +300,7 @@ Partial Class CustomTagsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1104, 657)
+        Me.ClientSize = New System.Drawing.Size(1108, 661)
         Me.Controls.Add(Me.AssetFolderBrowseButton)
         Me.Controls.Add(Me.SaveChangesButton)
         Me.Controls.Add(Me.RevertChangesButton)
@@ -268,13 +308,14 @@ Partial Class CustomTagsForm
         Me.Controls.Add(Me.TagSetsAndTagsGroupBox)
         Me.Controls.Add(Me.AssetsGroupBox)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.MinimumSize = New System.Drawing.Size(1124, 700)
         Me.Name = "CustomTagsForm"
-        Me.Text = "EightBitz's Custom Tags Tool - Version 0.7"
+        Me.Text = "EightBitz's Custom Tags Tool - Version 0.8"
         Me.AssetsGroupBox.ResumeLayout(False)
         Me.AssetsGroupBox.PerformLayout()
         CType(Me.AssetDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.AssetDataGridViewContextMenu.ResumeLayout(False)
         Me.TagSetsAndTagsGroupBox.ResumeLayout(False)
         Me.TagSetsAndTagsGroupBox.PerformLayout()
         Me.TagContextMenu.ResumeLayout(False)
@@ -307,4 +348,8 @@ Partial Class CustomTagsForm
     Friend WithEvents AssetFolderBrowseButton As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents SearchTextBox As TextBox
+    Friend WithEvents ThumbnailCheckBox As CheckBox
+    Friend WithEvents AssetDataGridViewContextMenu As ContextMenuStrip
+    Friend WithEvents AssetDataGridViewCheckSelectedMenuItem As ToolStripMenuItem
+    Friend WithEvents AssetDataGridViewUncheckSelectedMenuItem As ToolStripMenuItem
 End Class
