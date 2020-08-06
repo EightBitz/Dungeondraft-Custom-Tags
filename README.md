@@ -14,3 +14,11 @@ To use this program, download the following files from this repository and put t
 This program offers you a point-and-click interface to create/modify your own, customized default.dungeondraft_tags files for your own, custom asset packs. You do the pointing and clicking, and the program generates a valid JSON file that matches your selections.
 
 If you're looking for my other Dungeondraft tools, [those can be found here](https://github.com/EightBitz/Dungeondraft-Tools).
+
+## Credits
+
+Huge thanks to Noral Kuhlmann (NoralKu on the Megasploot Discord server) for getting thumbnails to work. The code I had in place was sluggish and buggy, but Noral made it work like a pro.
+
+He also found and fixed a few other miscellaneous things in the code.
+
+Thanks, Noral!
