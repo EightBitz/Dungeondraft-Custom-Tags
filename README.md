@@ -8,10 +8,13 @@ Contact: [eightbitz73@outlook.com](mailto:eightbitz73@outlook.com)
 
 ## Getting Started
 
-To use this program, download the following files from this repository and put them all in the same folder.
+To use this program:
 
-* [CustomTags.exe](https://github.com/EightBitz/Dungeondraft-Custom-Tags/blob/Version-0.9/CustomTags.exe)
-* [Newtonsoft.Json.dll](https://github.com/EightBitz/Dungeondraft-Custom-Tags/blob/Version-0.9/Newtonsoft.Json.dll)
+1. [Download the Zip archive](https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-0.9.zip)
+2. Extract the folder.
+3. Run CustomTags.exe
+
+If you have questions, please read the documentation first.
 
 ## What Does it Do?
 
