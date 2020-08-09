@@ -17,11 +17,12 @@ If you're looking for my other Dungeondraft tools, [those can be found here](htt
 
 ## Credits
 
-Huge thanks to Noral Kuhlmann (NoralKu on the Megasploot Discord server) for getting thumbnails to work. The code I had in place was sluggish and buggy, but Noral made it work like a pro.
+**NoralKu:** Huge thanks to Noral Kuhlmann (NoralKu on the Megasploot Discord server) for getting thumbnails to work. The code I had in place was sluggish and buggy, but Noral made it work like a pro.
 
-He also found and fixed a few other miscellaneous things in the code.
+He also found and fixed a few other miscellaneous things in the code, and he helped with the composition of the About form and the new splash screen.
 
-Thanks, Noral!
+**Nexoness:** Thanks to Nexoness on Discord for the new logo.
+
 
 ## License
 
