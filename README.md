@@ -2,6 +2,10 @@
 
 What follows is a brief description of what this is and what it does, but please read [the full documentation](https://github.com/EightBitz/Dungeondraft-Custom-Tags/blob/Version-0.6/EightBitz's%20Custom%20Tags%20Documentation.pdf) as it contains important details.
 
+Copyright © 2020 EightBitz, [Creative Commons CC-BY-NC](http://creativecommons.org/licenses/by-nc/4.0/)
+
+Contact: [eightbitz73@outlook.com](mailto:eightbitz73@outlook.com)
+
 ## Getting Started
 
 To use this program, download the following files from this repository and put them all in the same folder.
