@@ -1,4 +1,4 @@
-# EightBitz's Custom Tags Tool
+# EightBitz's Custom Tags Tool Version 0.9
 
 What follows is a brief description of what this is and what it does, but please read [the full documentation](https://github.com/EightBitz/Dungeondraft-Custom-Tags/blob/Version-0.6/EightBitz's%20Custom%20Tags%20Documentation.pdf) as it contains important details.
 
@@ -13,8 +13,6 @@ To use this program:
 1. [Download the Zip archive](https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-0.9.zip)
 2. Extract the folder.
 3. Run CustomTags.exe
-
-If you have questions, please read the documentation first.
 
 ## What Does it Do?
 
