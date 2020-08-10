@@ -360,7 +360,7 @@ Partial Class CustomTagsForm
         '
         Me.PreferencesMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadPreferencesMenuItem, Me.SavePreferencesMenuItem, Me.DefaultPreferencesMenuItem})
         Me.PreferencesMenuItem.Name = "PreferencesMenuItem"
-        Me.PreferencesMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PreferencesMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.PreferencesMenuItem.Text = "&Preferences"
         '
         'LoadPreferencesMenuItem
@@ -385,25 +385,25 @@ Partial Class CustomTagsForm
         '
         Me.TemplatesMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadTemplateMenuItem, Me.SaveTemplateMenuItem, Me.DefaultTemplateMenuItem})
         Me.TemplatesMenuItem.Name = "TemplatesMenuItem"
-        Me.TemplatesMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.TemplatesMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.TemplatesMenuItem.Text = "&Templates"
         '
         'LoadTemplateMenuItem
         '
         Me.LoadTemplateMenuItem.Name = "LoadTemplateMenuItem"
-        Me.LoadTemplateMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LoadTemplateMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.LoadTemplateMenuItem.Text = "Load Template"
         '
         'SaveTemplateMenuItem
         '
         Me.SaveTemplateMenuItem.Name = "SaveTemplateMenuItem"
-        Me.SaveTemplateMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveTemplateMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.SaveTemplateMenuItem.Text = "Save Template"
         '
         'DefaultTemplateMenuItem
         '
         Me.DefaultTemplateMenuItem.Name = "DefaultTemplateMenuItem"
-        Me.DefaultTemplateMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DefaultTemplateMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.DefaultTemplateMenuItem.Text = "Default Template"
         '
         'HelpMenuItem

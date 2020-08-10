@@ -380,10 +380,12 @@ Public Class CustomTagsForm
 
     Public Sub AssetDataGridView_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles AssetDataGridView.CellContentClick
         If GlobalVariables.TrackChanges Then
-            If e.ColumnIndex = 0 Then
+            If e.ColumnIndex = 0 And e.RowIndex >= 0 Then
                 Dim Row As DataGridViewRow
                 Row = AssetDataGridView.Rows(e.RowIndex)
                 AssetCheckBoxChanged(Row)
+            ElseIf e.ColumnIndex = 0 And e.RowIndex = -1 Then
+
             End If
         End If
     End Sub

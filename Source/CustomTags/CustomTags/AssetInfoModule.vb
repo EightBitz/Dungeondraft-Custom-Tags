@@ -10,6 +10,7 @@ Module AssetInfoModule
         Dim SelectColumn As New DataGridViewCheckBoxColumn With {
             .HeaderText = "Select",
             .Name = "Select",
+            .SortMode = DataGridViewColumnSortMode.Automatic,
             .Width = 70
         }
         CustomTagsForm.AssetDataGridView.Columns.Add(SelectColumn)
@@ -32,6 +33,7 @@ Module AssetInfoModule
         Dim FileNameColumn As New DataGridViewTextBoxColumn With {
             .HeaderText = "File Name",
             .Name = "FileName",
+            .SortMode = DataGridViewColumnSortMode.Automatic,
             .Width = 423,
             .ReadOnly = True
         }
