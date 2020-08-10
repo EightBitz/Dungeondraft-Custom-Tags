@@ -10,7 +10,7 @@ Contact: [eightbitz73@outlook.com](mailto:eightbitz73@outlook.com)
 
 To use this program:
 
-1. [Download the Zip archive](https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-0.9.zip)
+1. [Download the Zip archive](https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-0.9.1.zip)
 2. Extract the folder.
 3. Run CustomTags.exe
 
