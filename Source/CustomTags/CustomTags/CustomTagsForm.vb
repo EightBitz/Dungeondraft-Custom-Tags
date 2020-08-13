@@ -4,45 +4,8 @@ Imports Newtonsoft.Json.Linq
 
 Public Class CustomTagsForm
 
-    Private Sub DisableControls()
-        AddTagButton.Enabled = False
-        TagCheckedListBox.Enabled = False
-        AddTagSetButton.Enabled = False
-        TagSetListBox.Enabled = False
-        TagComboBox.Enabled = False
-        'ShowAssetsComboBox.Enabled = False
-        'SortAssetsComboBox.Enabled = False
-        AssetDataGridView.Enabled = False
-        SearchTextBox.Enabled = False
-        ThumbnailCheckBox.Enabled = False
-        SavePreferencesMenuItem.Enabled = False
-        DefaultPreferencesMenuItem.Enabled = False
-        TemplatesMenuItem.Enabled = False
-    End Sub
-
-    Private Sub EnableControls()
-        AddTagButton.Enabled = True
-        TagCheckedListBox.Enabled = True
-        AddTagSetButton.Enabled = True
-        TagSetListBox.Enabled = True
-        TagComboBox.Enabled = True
-        'ShowAssetsComboBox.Enabled = True
-        'SortAssetsComboBox.Enabled = True
-        AssetDataGridView.Enabled = True
-        SearchTextBox.Enabled = True
-        ThumbnailCheckBox.Enabled = True
-        LoadPreferencesMenuItem.Enabled = True
-        SavePreferencesMenuItem.Enabled = True
-        DefaultPreferencesMenuItem.Enabled = True
-        TemplatesMenuItem.Enabled = True
-    End Sub
-
     Private Sub CustomTagsForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        '
-        ' 8/5/2020 - Added by Noral
-        ' Show version number dynamically according to assememby version
-        '
         Me.Text = "EightBitz's Custom Tags Tool - Version " + My.Application.Info.Version.ToString
 
         VersionLabel.Text = "Version " & My.Application.Info.Version.ToString
@@ -56,7 +19,6 @@ Public Class CustomTagsForm
         GlobalVariables.FirstLoad = True
         SplashPanel.Visible = True
         SplashPanel.BringToFront()
-        DisableControls()
     End Sub
 
     Private Sub AssetFolderTextBox_LostFocus(sender As Object, e As EventArgs) Handles AssetFolderTextBox.LostFocus
@@ -68,17 +30,8 @@ Public Class CustomTagsForm
         Dim DoesFolderExist As Boolean
 
         AssetFolder = AssetFolderTextBox.Text
-        IsFolderNameValid = IsValidPathName(AssetFolder)
-        DoesFolderExist = Directory.Exists(AssetFolder)
-
-        If AssetFolderTextBox.Text = "" Then
-            ClearLists()
-        Else
-            If IsFolderNameValid And DoesFolderExist Then
-                RefreshLists(AssetFolder, False)
-            Else
-                MsgBox("Invalid folder name or folder does not exist.")
-            End If
+        If AssetFolder <> GlobalVariables.CurrentFolder Then
+            GetNewAssetFolder(AssetFolder)
         End If
     End Sub
 
@@ -101,17 +54,39 @@ Public Class CustomTagsForm
         If AssetFolderTextBox.Text.EndsWith("\") Then AssetFolderTextBox.Text = AssetFolderTextBox.Text.TrimEnd("\")
 
         AssetFolder = AssetFolderTextBox.Text
-        IsFolderNameValid = IsValidPathName(AssetFolder)
-        DoesFolderExist = Directory.Exists(AssetFolder)
+        If AssetFolder <> GlobalVariables.CurrentFolder Then
+            GetNewAssetFolder(AssetFolder)
+        End If
+    End Sub
 
-        If AssetFolderTextBox.Text = "" Then
-            ClearLists()
+    Public Sub GetNewAssetFolder(AssetFolder As String)
+        Dim ExitDialogResults As DialogResult
+
+        If TagSetListBox.Items.Count = 0 And TagCheckedListBox.Items.Count = 0 And AssetDataGridView.Rows.Count = 0 Then
+            ExitDialogResults = DialogResult.Yes
         Else
-            If IsFolderNameValid And DoesFolderExist Then
-                RefreshLists(AssetFolder, False)
+            ExitDialogResults = MessageBox.Show("Loading a new asset folder will lose all changes since your last save. Are you sure you want to continue?", "Load New Asset Folder", MessageBoxButtons.YesNo)
+        End If
+
+        If ExitDialogResults = DialogResult.Yes Then
+            Dim IsFolderNameValid As Boolean
+            Dim DoesFolderExist As Boolean
+            IsFolderNameValid = IsValidPathName(AssetFolder)
+            DoesFolderExist = Directory.Exists(AssetFolder)
+
+            If AssetFolder = "" Then
+                ClearLists()
             Else
-                MsgBox("Invalid folder name or folder does not exist.")
+                If IsFolderNameValid And DoesFolderExist Then
+                    RefreshLists(AssetFolder, False)
+                Else
+                    MsgBox("Invalid folder name or folder does not exist.")
+                    AssetFolderTextBox.Text = GlobalVariables.CurrentFolder
+                End If
             End If
+            GlobalVariables.CurrentFolder = AssetFolder
+        Else
+            AssetFolderTextBox.Text = GlobalVariables.CurrentFolder
         End If
     End Sub
 
@@ -141,30 +116,31 @@ Public Class CustomTagsForm
         TagSetListBox.Items.Remove(TagSetName)
         Dim TagSetObject = GlobalVariables.TagObject("sets")
         TagSetObject.Remove(TagSetName)
-        TagSetListBox.SelectedIndex = 0
+        If TagSetListBox.Items.Count >= 1 Then
+            TagSetListBox.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub RemoveTagContextMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveTagContextMenuItem.Click
         Dim TagName = TagCheckedListBox.SelectedItem
         TagCheckedListBox.Items.Remove(TagName)
         TagComboBox.Items.Remove(TagName)
+
         Dim TagObject = GlobalVariables.TagObject("tags")
         TagObject.Remove(TagName)
-        TagCheckedListBox.SelectedIndex = 0
+        If TagCheckedListBox.Items.Count >= 1 Then
+            TagCheckedListBox.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub TagSetListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TagSetListBox.SelectedIndexChanged
-        If TagSetListBox.SelectedIndex >= 0 Then
-            AddTagTextBox.Enabled = True
-            AddTagButton.Enabled = True
-            TagCheckedListBox.Enabled = True
-        Else
-            AddTagTextBox.Enabled = False
-            AddTagButton.Enabled = False
-            TagCheckedListBox.Enabled = False
-        End If
 
-        If Not TagSetListBox.SelectedItem Is Nothing Then
+        Dim TagIndex As Integer
+        If TagSetListBox.Items.Count = 0 Then
+            For TagIndex = 0 To TagCheckedListBox.Items.Count - 1
+                TagCheckedListBox.SetItemChecked(TagIndex, False)
+            Next
+        ElseIf Not TagSetListBox.SelectedItem Is Nothing Then
             GlobalVariables.TrackChanges = False
 
             Dim TagSetName As String
@@ -193,16 +169,23 @@ Public Class CustomTagsForm
         If GlobalVariables.TrackChanges Then
             Dim TagName As String = TagCheckedListBox.Items(e.Index)
             Dim TagSetName As String = TagSetListBox.SelectedItem
-            Dim TagSetObject = GlobalVariables.TagObject("sets")(TagSetName)
-            If e.NewValue Then
-                TagSetObject.Add(TagName)
+            Dim TagSetObject As JArray
+
+            If TagSetName Is Nothing Then
+                If e.NewValue Then MsgBox("Please select a tag set to assign this tag to.")
+                e.NewValue = False
             Else
-                For TagIndex = 0 To TagSetObject.Count - 1
-                    If TagSetObject(TagIndex) = TagName Then
-                        TagSetObject(TagIndex).Remove
-                        Exit For
-                    End If
-                Next
+                TagSetObject = GlobalVariables.TagObject("sets")(TagSetName)
+                If e.NewValue Then
+                    TagSetObject.Add(TagName)
+                Else
+                    For TagIndex = 0 To TagSetObject.Count - 1
+                        If TagSetObject(TagIndex) = TagName Then
+                            TagSetObject(TagIndex).Remove()
+                            Exit For
+                        End If
+                    Next
+                End If
             End If
         End If
     End Sub
@@ -215,7 +198,6 @@ Public Class CustomTagsForm
         GlobalVariables.TagObject = GetTagInfo(AssetFolder)
         Dim TagInfo = GlobalVariables.TagObject
         If Not TagInfo Is Nothing Then
-            DisableControls()
             Dim AssetList As New List(Of String)
             TagSetListBox.Items.Clear()
 
@@ -228,10 +210,7 @@ Public Class CustomTagsForm
             TagCheckedListBox.Items.Clear()
             TagComboBox.Items.Clear()
             AssetDataGridView.Rows.Clear()
-            '
-            ' 8/5/2020 - Added by Noral
-            ' Refresh of DataGridView 
-            '
+
             AssetDataGridView.Refresh()
 
             If Not TagInfo("tags") Is Nothing Then
@@ -244,13 +223,13 @@ Public Class CustomTagsForm
                     Next
                 Next
             End If
-            '
-            ' 8/5/2020 - Added by Noral
-            ' Unneccessary
-            '
-            'AssetDataGridView.Rows.Clear()
-            'AssetDataGridView.Columns.Clear()
-            GetAssetInfo(AssetFolderTextBox.Text, AssetList)
+
+            'GetAssetInfo(AssetFolderTextBox.Text, AssetList)
+            GetAssetInfo(AssetFolder, AssetList)
+            For Each row As DataGridViewRow In AssetDataGridView.Rows
+                GetTagAssignments(row)
+            Next
+            GlobalVariables.CurrentFolder = AssetFolder
             ThumbnailCheckBox.Enabled = True
             If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
             If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
@@ -264,8 +243,34 @@ Public Class CustomTagsForm
                 ApplyPreferences(GlobalVariables.ConfigFile, Override)
                 GlobalVariables.FirstLoad = False
             End If
+        End If
+    End Sub
 
-            EnableControls()
+    Public Sub GetTagAssignments(row As DataGridViewRow)
+        If Not GlobalVariables.TagObject("tags") Is Nothing Then
+            Dim TagList = GlobalVariables.TagObject("tags")
+            Dim TagCount As Integer
+            Dim TagPath As String
+            Dim TagAssignment As String = ""
+
+            TagCount = 0
+                TagAssignment = ""
+                TagPath = Row.Cells("TagPath").Value
+                For Each AssetTag In TagList
+                    For Each Asset In AssetTag.Value
+                        If Asset.Value = TagPath Then
+                            TagCount += 1
+                            If TagAssignment = "" Then
+                                TagAssignment = AssetTag.Name
+                            Else
+                            TagAssignment &= "; " & AssetTag.Name
+                        End If
+                            Exit For
+                        End If
+                    Next
+                Next
+                Row.Cells("Tags").Value = TagCount
+            Row.Cells("Tags").ToolTipText = TagAssignment
         End If
     End Sub
 
@@ -275,8 +280,6 @@ Public Class CustomTagsForm
         TagComboBox.Items.Clear()
         AssetDataGridView.Rows.Clear()
         AssetDataGridView.Columns.Clear()
-
-        DisableControls()
     End Sub
 
     Private Sub RevertChangesButton_Click(sender As Object, e As EventArgs) Handles RevertChangesButton.Click
@@ -284,26 +287,30 @@ Public Class CustomTagsForm
         ' 8/5/2020 - Added by Noral
         ' Adding prompt before changes are lost!
         '
-        Dim MessageBoxResult As DialogResult = MessageBox.Show("Do you really want to revert?  Changes will be lost.", "Revert Changes", MessageBoxButtons.YesNo)
+        If AssetFolderTextBox.Text <> "" Or TagSetListBox.Items.Count <> 0 Or TagCheckedListBox.Items.Count <> 0 Or AssetDataGridView.Rows.Count <> 0 Then
+            Dim MessageBoxResult As DialogResult = MessageBox.Show("Do you really want to revert?  Changes will be lost.", "Revert Changes", MessageBoxButtons.YesNo)
 
-        If (MessageBoxResult = DialogResult.Yes) Then
-            Dim AssetFolder As String
-            Dim IsFolderNameValid As Boolean
-            Dim DoesFolderExist As Boolean
+            If (MessageBoxResult = DialogResult.Yes) Then
+                Dim AssetFolder As String
+                Dim IsFolderNameValid As Boolean
+                Dim DoesFolderExist As Boolean
 
-            AssetFolder = AssetFolderTextBox.Text
-            IsFolderNameValid = IsValidPathName(AssetFolder)
-            DoesFolderExist = Directory.Exists(AssetFolder)
+                AssetFolder = AssetFolderTextBox.Text
 
-            If IsFolderNameValid And DoesFolderExist Then
-                AddTagTextBox.Enabled = False
-                AddTagButton.Enabled = False
-                TagCheckedListBox.Enabled = False
-                GlobalVariables.TagObject = GetTagInfo(AssetFolderTextBox.Text)
-                Dim TagInfo = GlobalVariables.TagObject
-                RefreshLists(AssetFolder, False)
-            Else
-                MsgBox("Invalid folder name or folder does not exist.")
+                If AssetFolder = "" Then
+                    ClearLists()
+                Else
+                    IsFolderNameValid = IsValidPathName(AssetFolder)
+                    DoesFolderExist = Directory.Exists(AssetFolder)
+
+                    If IsFolderNameValid And DoesFolderExist Then
+                        GlobalVariables.TagObject = GetTagInfo(AssetFolderTextBox.Text)
+                        Dim TagInfo = GlobalVariables.TagObject
+                        RefreshLists(AssetFolder, False)
+                    Else
+                        MsgBox("Invalid folder name or folder does not exist.")
+                    End If
+                End If
             End If
         End If
     End Sub
@@ -380,12 +387,39 @@ Public Class CustomTagsForm
 
     Public Sub AssetDataGridView_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles AssetDataGridView.CellContentClick
         If GlobalVariables.TrackChanges Then
-            If e.ColumnIndex = 0 And e.RowIndex >= 0 Then
+            If e.ColumnIndex = 1 And e.RowIndex >= 0 Then
                 Dim Row As DataGridViewRow
                 Row = AssetDataGridView.Rows(e.RowIndex)
                 AssetCheckBoxChanged(Row)
-            ElseIf e.ColumnIndex = 0 And e.RowIndex = -1 Then
+            ElseIf e.ColumnIndex = 1 And e.RowIndex = -1 Then
+                'Do Nothing
+            End If
+        End If
+    End Sub
 
+    Public Sub AssetDataGridView_CellContentDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles AssetDataGridView.CellContentDoubleClick
+        If GlobalVariables.TrackChanges Then
+            If e.ColumnIndex = 0 And e.RowIndex >= 0 Then
+                Dim row As DataGridViewRow = AssetDataGridView.Rows(e.RowIndex)
+                Dim TagList As String = row.Cells("Tags").ToolTipText
+                Dim SplitList() As String
+                Dim TagMessage As String
+                If row.Cells("Tags").Value = 0 Then
+                    TagMessage = row.Cells("Filename").Value & " has not been assigned to any tags."
+                Else
+                    If row.Cells("Tags").Value = 1 Then
+                        TagMessage = row.Cells("Filename").Value & " has been assigned to the following tag:" & vbCrLf
+                    ElseIf row.Cells("Tags").Value > 1 Then
+                        TagMessage = row.Cells("Filename").Value & " has been assigned to the following " & row.Cells("Tags").Value & " tags:" & vbCrLf
+                    End If
+                    SplitList = TagList.Split(";")
+                        For TagCount As Integer = 0 To SplitList.Count - 1
+                            TagMessage &= vbCrLf & SplitList(TagCount).Trim
+                        Next
+                    End If
+                    MsgBox(TagMessage)
+            Else
+                'Do Nothing
             End If
         End If
     End Sub
@@ -412,6 +446,7 @@ Public Class CustomTagsForm
                 End If
             Next
         End If
+        GetTagAssignments(Row)
     End Sub
 
     Private Sub AssetDataGridViewCheckSelectedMenuItem_Click(sender As Object, e As EventArgs) Handles AssetDataGridViewCheckSelectedMenuItem.Click
@@ -438,25 +473,6 @@ Public Class CustomTagsForm
         Next
     End Sub
 
-
-    '
-    ' 8/5/2020 - Added by Noral
-    ' Unneccessary
-    '
-    'Public Sub AssetGridView_CellContentDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles AssetDataGridView.CellContentDoubleClick
-    '    If e.ColumnIndex <> AssetDataGridView.Columns("Select").Index And ThumbnailCheckBox.Checked Then
-    '        GetThumbnails()
-    '    End If
-    'End Sub
-
-    'Public Sub AssetDataGridView_Scroll() Handles AssetDataGridView.Scroll
-    '    GetThumbnails()
-    'End Sub
-
-    'Public Sub AssetDataGridView_Sorted() Handles AssetDataGridView.Sorted
-    '    GetThumbnails()
-    'End Sub
-
     Private Sub ShowAssetsComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ShowAssetsComboBox.SelectedIndexChanged
         Select Case ShowAssetsComboBox.SelectedItem
             Case "Show All"
@@ -465,11 +481,7 @@ Public Class CustomTagsForm
                 For Each row As DataGridViewRow In AssetDataGridView.Rows
                     row.Visible = True
                 Next
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
+
                 SetColumnWidths()
             Case "Show Selected"
                 SearchTextBox.Text = ""
@@ -481,11 +493,7 @@ Public Class CustomTagsForm
                         row.Visible = False
                     End If
                 Next
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
+
                 SetColumnWidths()
             Case "Show Unselected"
                 SearchTextBox.Text = ""
@@ -497,11 +505,7 @@ Public Class CustomTagsForm
                         row.Visible = True
                     End If
                 Next
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
+
                 SetColumnWidths()
             Case "Search"
                 SearchTextBox.Enabled = True
@@ -509,40 +513,22 @@ Public Class CustomTagsForm
     End Sub
 
     Private Sub SortAssetsComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SortAssetsComboBox.SelectedIndexChanged
-        Select Case SortAssetsComboBox.SelectedItem
-            Case "Sort by Name (Ascending)"
-                AssetDataGridView.Sort(AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Ascending)
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
-                SetColumnWidths()
-            Case "Sort by Name (Descending)"
-                AssetDataGridView.Sort(AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Descending)
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
-                SetColumnWidths()
-            Case "Sort by Selected (Ascending)"
-                AssetDataGridView.Sort(AssetDataGridView.Columns("Select"), System.ComponentModel.ListSortDirection.Ascending)
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
-                SetColumnWidths()
-            Case "Sort by Selected (Descending)"
-                AssetDataGridView.Sort(AssetDataGridView.Columns("Select"), System.ComponentModel.ListSortDirection.Descending)
-                '
-                ' 8/5/2020 - Added by Noral
-                ' Unneccessary
-                '
-                'GetThumbnails()
-                SetColumnWidths()
-        End Select
+        If AssetDataGridView.Rows.Count >= 1 Then
+            Select Case SortAssetsComboBox.SelectedItem
+                Case "Sort by Name (Ascending)"
+                    AssetDataGridView.Sort(AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Ascending)
+                    SetColumnWidths()
+                Case "Sort by Name (Descending)"
+                    AssetDataGridView.Sort(AssetDataGridView.Columns("FileName"), System.ComponentModel.ListSortDirection.Descending)
+                    SetColumnWidths()
+                Case "Sort by Selected (Ascending)"
+                    AssetDataGridView.Sort(AssetDataGridView.Columns("Select"), System.ComponentModel.ListSortDirection.Ascending)
+                    SetColumnWidths()
+                Case "Sort by Selected (Descending)"
+                    AssetDataGridView.Sort(AssetDataGridView.Columns("Select"), System.ComponentModel.ListSortDirection.Descending)
+                    SetColumnWidths()
+            End Select
+        End If
     End Sub
 
     Private Sub SearchTextBox_LostFocus(sender As Object, e As EventArgs) Handles SearchTextBox.LostFocus
@@ -555,11 +541,6 @@ Public Class CustomTagsForm
                     row.Visible = False
                 End If
             Next
-            '
-            ' 8/5/2020 - Added by Noral
-            ' Unneccessary
-            '
-            'GetThumbnails()
             SetColumnWidths()
         End If
     End Sub
@@ -603,6 +584,7 @@ Public Class CustomTagsForm
             Dim FileNameWidth As Integer
             FileNameWidth = AssetDataGridView.Width - 43
 
+            FileNameWidth -= AssetDataGridView.Columns("Tags").Width
             FileNameWidth -= AssetDataGridView.Columns("Select").Width
             If AssetDataGridView.Columns("Thumbnail").Visible Then FileNameWidth -= AssetDataGridView.Columns("Thumbnail").Width
             If AssetDataGridView.Controls.OfType(Of VScrollBar).First.Visible Then FileNameWidth -= SystemInformation.VerticalScrollBarWidth
@@ -613,62 +595,21 @@ Public Class CustomTagsForm
 
     Private Sub SetRowHeight()
         Dim Row As DataGridViewRow
-        If ThumbnailCheckBox.Checked Then
-            AssetDataGridView.Columns("Thumbnail").Visible = True
-            For Each Row In AssetDataGridView.Rows
-                Row.Height = 60
-            Next
-        Else
-            AssetDataGridView.Columns("Thumbnail").Visible = False
-            For Each Row In AssetDataGridView.Rows
-                Row.Height = 22
-            Next
+        If AssetDataGridView.Rows.Count >= 1 Then
+            If ThumbnailCheckBox.Checked Then
+                AssetDataGridView.Columns("Thumbnail").Visible = True
+                For Each Row In AssetDataGridView.Rows
+                    Row.Height = 60
+                Next
+            Else
+                AssetDataGridView.Columns("Thumbnail").Visible = False
+                For Each Row In AssetDataGridView.Rows
+                    Row.Height = 22
+                Next
+            End If
         End If
     End Sub
-    '
-    ' 8/5/2020 - Added by Noral
-    ' Unneccessary
-    '
-    'Public Sub GetThumbnails()
-    '    GlobalVariables.TrackChanges = False
-    '    If ThumbnailCheckBox.Checked Then
-    '        Dim RowIndex As Integer
-    '        Dim imgcallback As Image.GetThumbnailImageAbort = New Image.GetThumbnailImageAbort(AddressOf ImageCallBack)
-    '        Dim Filename As String
 
-    '        Dim totalHeight As Int16 = 0
-
-    '        For RowIndex = 0 To AssetDataGridView.Rows.Count - 1
-    '            If AssetDataGridView.Rows(RowIndex).Displayed Then
-    '                Filename = AssetDataGridView.Rows(RowIndex).Cells("FilePath").Value
-    '                Dim image As Image = New Bitmap(Filename)
-
-    '                '
-    '                ' Aspect Ratio
-    '                'https://eikhart.com/blog/aspect-ratio-calculator#:~:text=There%20is%20a%20simple%20formula,%3D%20(%20newHeight%20*%20aspectRatio%20)%20.
-    '                '
-
-    '                Dim aspectRatio As Double = image.Width / image.Height
-    '                Dim thumbHeight As Double = 60 / aspectRatio
-    '                Dim thumbWidth As Double = thumbHeight * aspectRatio
-
-    '                Dim imgThumbnail = image.GetThumbnailImage(CInt(thumbWidth), CInt(thumbHeight), imgcallback, New IntPtr)
-
-    '                Dim RowHeight = thumbHeight + 10
-    '                If RowHeight < 22 Then RowHeight = 22
-    '                AssetDataGridView.Rows(RowIndex).Height = RowHeight
-    '                AssetDataGridView.Rows(RowIndex).Cells("Thumbnail").Value = imgThumbnail
-    '            Else
-    '                AssetDataGridView.Rows(RowIndex).Cells("Thumbnail").Value = Nothing
-    '            End If
-    '        Next
-    '    End If
-    '    GlobalVariables.TrackChanges = True
-    'End Sub
-    '
-    ' 8/5/2020 - Added by Noral
-    ' Background loading of thumbnails
-    '
     Private Sub LoadThumbnails()
         'Dim RowIndex As Integer = 0
         Dim imgcallback As Image.GetThumbnailImageAbort = New Image.GetThumbnailImageAbort(AddressOf ImageCallBack)
@@ -688,15 +629,6 @@ Public Class CustomTagsForm
             Dim thumbHeight As Double = 60 / aspectRatio
             Dim thumbWidth As Double = thumbHeight * aspectRatio
             Dim imgThumbnail As Bitmap = New Bitmap(image.GetThumbnailImage(CInt(thumbWidth), CInt(thumbHeight), imgcallback, New IntPtr))
-
-            'Dim RowHeight = thumbHeight + 10
-            'If RowHeight <= 22 Then RowHeight = 22
-            'AssetDataGridView.Rows(RowIndex).Height = RowHeight
-
-
-            'Dim cell As New DataGridViewImageCell
-            'cell = CType(AssetDataGridRow.Cells("Thumbnail"), DataGridViewImageCell)
-            'cell.Value = imgThumbnail
 
             AssetDataGridRow.Cells("Thumbnail").Value = imgThumbnail
 
@@ -729,7 +661,7 @@ Public Class CustomTagsForm
     End Sub
 
     Private Sub CustomTagsForm_Closing(sender As Object, e As EventArgs) Handles MyBase.Closing
-        If AssetFolderTextBox.Text = "" Then
+        If AssetFolderTextBox.Text = "" And TagSetListBox.Items.Count = 0 And TagCheckedListBox.Items.Count = 0 And AssetDataGridView.Rows.Count = 0 Then
             End
         Else
             Dim ExitDialogResults = MessageBox.Show("Do you want to Save Changes?", "Exit", MessageBoxButtons.YesNo)
@@ -756,11 +688,15 @@ Public Class CustomTagsForm
     End Sub
 
     Private Sub LoadPreferencesMenuItem_Click(sender As Object, e As EventArgs) Handles LoadPreferencesMenuItem.Click
+        Dim ExitDialogResults As DialogResult
         If GlobalVariables.FirstLoad Then
             StartButton.PerformClick()
-
         Else
-            Dim ExitDialogResults = MessageBox.Show("Loading preferences will load your preferred asset folder and lose all changes since your last save. Are you sure you want to continue?", "Load Preferences", MessageBoxButtons.YesNo)
+            If AssetFolderTextBox.Text = "" And TagSetListBox.Items.Count = 0 And TagCheckedListBox.Items.Count = 0 And AssetDataGridView.Rows.Count = 0 Then
+                ExitDialogResults = DialogResult.Yes
+            Else
+                ExitDialogResults = MessageBox.Show("Loading preferences will load your preferred asset folder and lose all changes since your last save. Are you sure you want to continue?", "Load Preferences", MessageBoxButtons.YesNo)
+            End If
 
             If (ExitDialogResults = DialogResult.Yes) Then
                 ApplyPreferences(GlobalVariables.ConfigFile, True)
@@ -830,56 +766,66 @@ Public Class CustomTagsForm
     End Sub
 
     Private Sub LoadTemplateMenuItem_Click(sender As Object, e As EventArgs) Handles LoadTemplateMenuItem.Click
-        Dim ExitDialogResults = MessageBox.Show("Loading a new template will lose all changes since your last save. Are you sure you want to continue?", "Load Template", MessageBoxButtons.YesNo)
+        Dim ExitDialogResults As DialogResult
+
+        If AssetFolderTextBox.Text = "" And TagSetListBox.Items.Count = 0 And TagCheckedListBox.Items.Count = 0 And AssetDataGridView.Rows.Count = 0 Then
+            ExitDialogResults = DialogResult.Yes
+        Else
+            ExitDialogResults = MessageBox.Show("Loading a new template will lose all changes since your last save. Are you sure you want to continue?", "Load Template", MessageBoxButtons.YesNo)
+        End If
 
         If ExitDialogResults = DialogResult.Yes Then
-            Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
-            TemplateOpenFileDialog.InitialDirectory = AppPath
-            TemplateOpenFileDialog.Filter = "Template Files|*.template_tags"
-            TemplateOpenFileDialog.ShowDialog()
-            Dim TemplateFile As String = TemplateOpenFileDialog.FileName
+                Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
+                TemplateOpenFileDialog.InitialDirectory = AppPath
+                TemplateOpenFileDialog.Filter = "Template Files|*.template_tags"
+                TemplateOpenFileDialog.ShowDialog()
+                Dim TemplateFile As String = TemplateOpenFileDialog.FileName
 
-            Dim rawJson = File.ReadAllText(TemplateFile)
-            GlobalVariables.TagObject = JsonConvert.DeserializeObject(rawJson)
+                Dim rawJson = File.ReadAllText(TemplateFile)
+                GlobalVariables.TagObject = JsonConvert.DeserializeObject(rawJson)
 
-            GlobalVariables.TrackChanges = False
+                GlobalVariables.TrackChanges = False
 
-            Dim TagInfo = GlobalVariables.TagObject
+                Dim TagInfo = GlobalVariables.TagObject
 
-            If Not TagInfo Is Nothing Then
-                DisableControls()
-                Dim AssetList As New List(Of String)
-                TagSetListBox.Items.Clear()
+                If Not TagInfo Is Nothing Then
+                    Dim AssetList As New List(Of String)
+                    TagSetListBox.Items.Clear()
 
-                If Not TagInfo("sets") Is Nothing Then
-                    For Each TagSet In TagInfo("sets")
-                        TagSetListBox.Items.Add(TagSet.Name)
-                    Next
+                    If Not TagInfo("sets") Is Nothing Then
+                        For Each TagSet In TagInfo("sets")
+                            TagSetListBox.Items.Add(TagSet.Name)
+                        Next
+                    End If
+
+                    TagCheckedListBox.Items.Clear()
+                    TagComboBox.Items.Clear()
+
+                    If Not TagInfo("tags") Is Nothing Then
+                        For Each AssetTag In TagInfo("tags")
+                            TagCheckedListBox.Items.Add(AssetTag.Name)
+                            TagComboBox.Items.Add(AssetTag.Name)
+                        Next
+                    End If
+
+                    If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
+                    If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
+                    ShowAssetsComboBox.SelectedIndex = 0
+                    SortAssetsComboBox.SelectedIndex = 0
                 End If
-
-                TagCheckedListBox.Items.Clear()
-                TagComboBox.Items.Clear()
-
-                If Not TagInfo("tags") Is Nothing Then
-                    For Each AssetTag In TagInfo("tags")
-                        TagCheckedListBox.Items.Add(AssetTag.Name)
-                        TagComboBox.Items.Add(AssetTag.Name)
-                    Next
-                End If
-
-                If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
-                If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
-                ShowAssetsComboBox.SelectedIndex = 0
-                SortAssetsComboBox.SelectedIndex = 0
-
-                EnableControls()
-            End If
             GlobalVariables.TrackChanges = True
         End If
     End Sub
 
     Private Sub DefaultTemplateMenuItem_Click(sender As Object, e As EventArgs) Handles DefaultTemplateMenuItem.Click
-        Dim ExitDialogResults = MessageBox.Show("Loading the default template will lose all changes since your last save. Are you sure you want to continue?", "Load Default Template", MessageBoxButtons.YesNo)
+        Dim ExitDialogResults As DialogResult
+
+        If AssetFolderTextBox.Text = "" And TagSetListBox.Items.Count = 0 And TagCheckedListBox.Items.Count = 0 And AssetDataGridView.Rows.Count = 0 Then
+            ExitDialogResults = DialogResult.Yes
+        Else
+            ExitDialogResults = MessageBox.Show("Loading the default template will lose all changes since your last save. Are you sure you want to continue?", "Load Default Template", MessageBoxButtons.YesNo)
+        End If
+
         If ExitDialogResults = DialogResult.Yes Then
             Dim TagInfo = BuildTagsFromScratch()
 
@@ -888,7 +834,6 @@ Public Class CustomTagsForm
             GlobalVariables.TrackChanges = False
 
             If Not TagInfo Is Nothing Then
-                DisableControls()
                 Dim AssetList As New List(Of String)
                 TagSetListBox.Items.Clear()
 
@@ -912,8 +857,6 @@ Public Class CustomTagsForm
                 If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
                 ShowAssetsComboBox.SelectedIndex = 0
                 SortAssetsComboBox.SelectedIndex = 0
-
-                EnableControls()
             End If
             GlobalVariables.TrackChanges = True
         End If
@@ -921,6 +864,7 @@ Public Class CustomTagsForm
 End Class
 
 Public Class GlobalVariables
+    Public Shared Property CurrentFolder As String
     Public Shared Property TagObject
     Public Shared Property ConfigFile = "CustomTags.config"
     Public Shared Property MinFormWidth = 1124

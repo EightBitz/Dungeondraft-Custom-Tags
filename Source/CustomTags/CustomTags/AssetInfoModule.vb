@@ -7,6 +7,16 @@ End Class
 Module AssetInfoModule
     Public Sub CreateAssetGridColumns()
         'Configure our columns for the data grid view.
+        Dim TagColumn As New DataGridViewTextBoxColumn With {
+            .HeaderText = "#",
+            .Name = "Tags",
+            .SortMode = DataGridViewColumnSortMode.Automatic,
+            .Width = 35,
+            .ReadOnly = True
+        }
+
+        CustomTagsForm.AssetDataGridView.Columns.Add(TagColumn)
+
         Dim SelectColumn As New DataGridViewCheckBoxColumn With {
             .HeaderText = "Select",
             .Name = "Select",
@@ -14,7 +24,6 @@ Module AssetInfoModule
             .Width = 70
         }
         CustomTagsForm.AssetDataGridView.Columns.Add(SelectColumn)
-        CustomTagsForm.AssetDataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
         '
         ' 8/5/2020 - Added by Noral
@@ -54,6 +63,8 @@ Module AssetInfoModule
             .ReadOnly = True
         }
         CustomTagsForm.AssetDataGridView.Columns.Add(FilePathColumn)
+
+        CustomTagsForm.AssetDataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
     End Sub
 
     Public Function ParseFileList(Source, FileList)
@@ -171,8 +182,9 @@ Module AssetInfoModule
 
             Dim RowIndex As Integer = 0
             For Each Asset In AllAssets
-                Dim NewRow = {False, Nothing, Asset.Name, Asset.TagPath, Asset.FilePath}
+                Dim NewRow = {"00", False, Nothing, Asset.Name, Asset.TagPath, Asset.FilePath}
                 CustomTagsForm.AssetDataGridView.Rows.Add(NewRow)
+                CustomTagsForm.AssetDataGridView.Rows(RowIndex).Cells("Tags").Style.Alignment = DataGridViewContentAlignment.MiddleCenter
                 'CustomTagsForm.AssetDataGridView.Rows(RowIndex).Height = 60
                 'CustomTagsForm.AssetDataGridView.Rows(RowIndex).Cells("FileName").ToolTipText = Asset.FilePath
                 RowIndex += 1

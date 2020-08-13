@@ -229,7 +229,6 @@ Partial Class CustomTagsForm
         '
         'TagCheckedListBox
         '
-        Me.TagCheckedListBox.CheckOnClick = True
         Me.TagCheckedListBox.ContextMenuStrip = Me.TagContextMenu
         Me.TagCheckedListBox.FormattingEnabled = True
         Me.TagCheckedListBox.Location = New System.Drawing.Point(244, 81)
@@ -360,7 +359,7 @@ Partial Class CustomTagsForm
         '
         Me.PreferencesMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadPreferencesMenuItem, Me.SavePreferencesMenuItem, Me.DefaultPreferencesMenuItem})
         Me.PreferencesMenuItem.Name = "PreferencesMenuItem"
-        Me.PreferencesMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.PreferencesMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PreferencesMenuItem.Text = "&Preferences"
         '
         'LoadPreferencesMenuItem
@@ -385,7 +384,7 @@ Partial Class CustomTagsForm
         '
         Me.TemplatesMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadTemplateMenuItem, Me.SaveTemplateMenuItem, Me.DefaultTemplateMenuItem})
         Me.TemplatesMenuItem.Name = "TemplatesMenuItem"
-        Me.TemplatesMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.TemplatesMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TemplatesMenuItem.Text = "&Templates"
         '
         'LoadTemplateMenuItem
