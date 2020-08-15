@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
+Imports ImageProcessor
+Imports ImageProcessor.Imaging.Formats
 
 Public Class CustomTagsForm
 
@@ -224,8 +226,24 @@ Public Class CustomTagsForm
                 Next
             End If
 
-            'GetAssetInfo(AssetFolderTextBox.Text, AssetList)
-            GetAssetInfo(AssetFolder, AssetList)
+            Dim first As Integer = 0
+            Dim last As Integer
+            Dim PurgeList As New List(Of String)
+            PurgeList = GetAssetInfo(AssetFolder, AssetList)
+            If Not PurgeList Is Nothing And Not TagInfo("tags") Is Nothing Then
+                For Each TagPath As String In PurgeList
+                    For Each AssetTag In TagInfo("tags")
+                        last = TagInfo("tags")(AssetTag.Name).Count - 1
+                        For TagCount = first To last
+                            If TagInfo("tags")(AssetTag.Name)(TagCount) = TagPath Then
+                                TagInfo("tags")(AssetTag.Name)(TagCount).Remove
+                                Exit For
+                            End If
+                        Next
+                    Next
+                Next
+            End If
+
             For Each row As DataGridViewRow In AssetDataGridView.Rows
                 GetTagAssignments(row)
             Next
@@ -254,23 +272,23 @@ Public Class CustomTagsForm
             Dim TagAssignment As String = ""
 
             TagCount = 0
-                TagAssignment = ""
-                TagPath = Row.Cells("TagPath").Value
-                For Each AssetTag In TagList
-                    For Each Asset In AssetTag.Value
-                        If Asset.Value = TagPath Then
-                            TagCount += 1
-                            If TagAssignment = "" Then
-                                TagAssignment = AssetTag.Name
-                            Else
+            TagAssignment = ""
+            TagPath = row.Cells("TagPath").Value
+            For Each AssetTag In TagList
+                For Each Asset In AssetTag.Value
+                    If Asset.Value = TagPath Then
+                        TagCount += 1
+                        If TagAssignment = "" Then
+                            TagAssignment = AssetTag.Name
+                        Else
                             TagAssignment &= "; " & AssetTag.Name
                         End If
-                            Exit For
-                        End If
-                    Next
+                        Exit For
+                    End If
                 Next
-                Row.Cells("Tags").Value = TagCount
-            Row.Cells("Tags").ToolTipText = TagAssignment
+            Next
+            row.Cells("Tags").Value = TagCount
+            row.Cells("Tags").ToolTipText = TagAssignment
         End If
     End Sub
 
@@ -413,11 +431,11 @@ Public Class CustomTagsForm
                         TagMessage = row.Cells("Filename").Value & " has been assigned to the following " & row.Cells("Tags").Value & " tags:" & vbCrLf
                     End If
                     SplitList = TagList.Split(";")
-                        For TagCount As Integer = 0 To SplitList.Count - 1
-                            TagMessage &= vbCrLf & SplitList(TagCount).Trim
-                        Next
-                    End If
-                    MsgBox(TagMessage)
+                    For TagCount As Integer = 0 To SplitList.Count - 1
+                        TagMessage &= vbCrLf & SplitList(TagCount).Trim
+                    Next
+                End If
+                MsgBox(TagMessage)
             Else
                 'Do Nothing
             End If
@@ -614,26 +632,86 @@ Public Class CustomTagsForm
         'Dim RowIndex As Integer = 0
         Dim imgcallback As Image.GetThumbnailImageAbort = New Image.GetThumbnailImageAbort(AddressOf ImageCallBack)
         Dim Filename As String
+        Dim FileExtension As String
+        Dim image As Image
 
         For Each AssetDataGridRow In AssetDataGridView.Rows
 
             Filename = AssetDataGridRow.Cells("FilePath").Value
-            Dim image As Image = New Bitmap(Filename)
+            If File.Exists(Filename) Then
+                FileExtension = Path.GetExtension(Filename)
+
+                Select Case FileExtension.ToLower
+                    Case ".bmp"
+                        image = New Bitmap(Filename)
+                    Case ".dds"
+                        image = Nothing
+                    Case ".exr"
+                        image = Nothing
+                    Case ".hdr"
+                        image = Nothing
+                    Case ".jpg"
+                        image = New Bitmap(Filename)
+                    Case ".jpeg"
+                        image = New Bitmap(Filename)
+                    Case ".png"
+                        image = New Bitmap(Filename)
+                    Case ".svg"
+                        image = Nothing
+                    Case ".svgz"
+                        image = Nothing
+                    Case ".tga"
+                        image = Nothing
+                    Case ".webp"
+                        image = GetWebPImage(Filename)
+                    Case Else
+                        image = Nothing
+                End Select
+            Else
+                image = Nothing
+            End If
 
             '
             ' Aspect Ratio
             'https://eikhart.com/blog/aspect-ratio-calculator#:~:text=There%20is%20a%20simple%20formula,%3D%20(%20newHeight%20*%20aspectRatio%20)%20.
             '
+            If Not image Is Nothing Then
+                Dim aspectRatio As Double = image.Width / image.Height
+                Dim thumbHeight As Double = 60 / aspectRatio
+                Dim thumbWidth As Double = thumbHeight * aspectRatio
+                Dim imgThumbnail As Bitmap = New Bitmap(image.GetThumbnailImage(CInt(thumbWidth), CInt(thumbHeight), imgcallback, New IntPtr))
 
-            Dim aspectRatio As Double = image.Width / image.Height
-            Dim thumbHeight As Double = 60 / aspectRatio
-            Dim thumbWidth As Double = thumbHeight * aspectRatio
-            Dim imgThumbnail As Bitmap = New Bitmap(image.GetThumbnailImage(CInt(thumbWidth), CInt(thumbHeight), imgcallback, New IntPtr))
-
-            AssetDataGridRow.Cells("Thumbnail").Value = imgThumbnail
+                AssetDataGridRow.Cells("Thumbnail").Value = imgThumbnail
+            End If
 
         Next
     End Sub
+
+    Private Function GetWebPImage(Filename As String)
+        Dim photoBytes As Byte() = File.ReadAllBytes(Filename)
+        ' Format is automatically detected though can be changed.
+        Dim WebPImage As Image
+
+        Dim format As ISupportedImageFormat = New PngFormat With {
+                .Quality = 70
+            }
+        Dim size As Size = New Size(150, 0)
+
+        Using inStream As MemoryStream = New MemoryStream(photoBytes)
+
+            Using outStream As MemoryStream = New MemoryStream()
+
+                ' Initialize the ImageFactory using the overload to preserve EXIF metadata.
+                Using imageFactory As ImageFactory = New ImageFactory(preserveExifData:=True)
+                    ' Load, resize, set the format and quality and save an image.
+                    imageFactory.Load(inStream).Resize(size).Format(format).Save(outStream)
+                End Using
+                ' Do something with the stream.
+                WebPImage = Image.FromStream(outStream)
+            End Using
+        End Using
+        Return WebPImage
+    End Function
 
     Private Sub AboutMenuItem_Click(sender As Object, e As EventArgs) Handles AboutMenuItem.Click
         AboutBox.Show()
@@ -775,44 +853,44 @@ Public Class CustomTagsForm
         End If
 
         If ExitDialogResults = DialogResult.Yes Then
-                Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
-                TemplateOpenFileDialog.InitialDirectory = AppPath
-                TemplateOpenFileDialog.Filter = "Template Files|*.template_tags"
-                TemplateOpenFileDialog.ShowDialog()
-                Dim TemplateFile As String = TemplateOpenFileDialog.FileName
+            Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
+            TemplateOpenFileDialog.InitialDirectory = AppPath
+            TemplateOpenFileDialog.Filter = "Template Files|*.template_tags"
+            TemplateOpenFileDialog.ShowDialog()
+            Dim TemplateFile As String = TemplateOpenFileDialog.FileName
 
-                Dim rawJson = File.ReadAllText(TemplateFile)
-                GlobalVariables.TagObject = JsonConvert.DeserializeObject(rawJson)
+            Dim rawJson = File.ReadAllText(TemplateFile)
+            GlobalVariables.TagObject = JsonConvert.DeserializeObject(rawJson)
 
-                GlobalVariables.TrackChanges = False
+            GlobalVariables.TrackChanges = False
 
-                Dim TagInfo = GlobalVariables.TagObject
+            Dim TagInfo = GlobalVariables.TagObject
 
-                If Not TagInfo Is Nothing Then
-                    Dim AssetList As New List(Of String)
-                    TagSetListBox.Items.Clear()
+            If Not TagInfo Is Nothing Then
+                Dim AssetList As New List(Of String)
+                TagSetListBox.Items.Clear()
 
-                    If Not TagInfo("sets") Is Nothing Then
-                        For Each TagSet In TagInfo("sets")
-                            TagSetListBox.Items.Add(TagSet.Name)
-                        Next
-                    End If
-
-                    TagCheckedListBox.Items.Clear()
-                    TagComboBox.Items.Clear()
-
-                    If Not TagInfo("tags") Is Nothing Then
-                        For Each AssetTag In TagInfo("tags")
-                            TagCheckedListBox.Items.Add(AssetTag.Name)
-                            TagComboBox.Items.Add(AssetTag.Name)
-                        Next
-                    End If
-
-                    If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
-                    If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
-                    ShowAssetsComboBox.SelectedIndex = 0
-                    SortAssetsComboBox.SelectedIndex = 0
+                If Not TagInfo("sets") Is Nothing Then
+                    For Each TagSet In TagInfo("sets")
+                        TagSetListBox.Items.Add(TagSet.Name)
+                    Next
                 End If
+
+                TagCheckedListBox.Items.Clear()
+                TagComboBox.Items.Clear()
+
+                If Not TagInfo("tags") Is Nothing Then
+                    For Each AssetTag In TagInfo("tags")
+                        TagCheckedListBox.Items.Add(AssetTag.Name)
+                        TagComboBox.Items.Add(AssetTag.Name)
+                    Next
+                End If
+
+                If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
+                If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
+                ShowAssetsComboBox.SelectedIndex = 0
+                SortAssetsComboBox.SelectedIndex = 0
+            End If
             GlobalVariables.TrackChanges = True
         End If
     End Sub

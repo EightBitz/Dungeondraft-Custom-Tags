@@ -132,19 +132,18 @@ Module AssetInfoModule
         Return True
     End Function
 
-    Public Sub GetAssetInfo(Source As String, TagList As List(Of String))
+    Public Function GetAssetInfo(Source As String, TagList As List(Of String))
         CreateAssetGridColumns()
-        Dim FileTypes() As String = {".bmp", ".dds", ".exr", ".hdr", ".jpg", ".jpeg", ".png", ".tga", ".svg", ".svgz", ".webp"}
+        Dim FileTypes() As String = {".bmp", ".dds", ".exr", ".hdr", ".jpg", ".jpeg", ".png", ".svg", ".svgz", ".tga", ".webp"}
         Dim ObjectPath As String = Source & "\textures\objects"
+        Dim PurgeList As New List(Of String)
+        Dim FileAssets As New List(Of AssetObject)
+        Dim TagAssets As New List(Of AssetObject)
+        Dim MissingAssets As New List(Of AssetObject)
+        Dim AllAssets As New List(Of AssetObject)
         If Directory.Exists(ObjectPath) Then
             Dim FileList = From File In Directory.GetFiles(ObjectPath, "*.*", SearchOption.AllDirectories)
                            Where FileTypes.Contains(Path.GetExtension(File).ToLower)
-
-            Dim FileAssets As New List(Of AssetObject)
-            Dim TagAssets As New List(Of AssetObject)
-            Dim MissingAssets As New List(Of AssetObject)
-            Dim AllAssets As New List(Of AssetObject)
-
             '
             ' 8/5/2020 - Added by Noral
             ' Changed conditional from ">" to ">=" to take into account only a single file in the directory
@@ -163,7 +162,10 @@ Module AssetInfoModule
                 MissingFilesMsg &= vbCrLf & "Do you want to keep these entries?"
                 MissingFilesMsg &= vbCrLf & "(Recommended answer is No.)"
                 Dim Response = MsgBox(MissingFilesMsg, MsgBoxStyle.YesNo)
-                If Response = MsgBoxResult.Yes Then AllAssets.AddRange(MissingAssets)
+                If Response = MsgBoxResult.Yes Then
+                    AllAssets.AddRange(MissingAssets)
+                    MissingAssets.Clear()
+                End If
             End If
 
             Dim Duplicate As Boolean
@@ -196,5 +198,14 @@ Module AssetInfoModule
             WarningMessage &= "You may be in the wrong folder."
             MsgBox(WarningMessage)
         End If
-    End Sub
+
+        If MissingAssets.Count >= 1 Then
+            For Each Asset As AssetObject In MissingAssets
+                PurgeList.Add(Asset.TagPath)
+            Next
+        Else
+            PurgeList = Nothing
+        End If
+        Return PurgeList
+    End Function
 End Module
