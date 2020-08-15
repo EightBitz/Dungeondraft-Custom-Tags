@@ -1,4 +1,4 @@
-# EightBitz's Custom Tags Tool Version 1.0
+# EightBitz's Custom Tags Tool Version 1.0.1
 
 What follows is a brief description of what this is and what it does, but please read [the full documentation](https://github.com/EightBitz/Dungeondraft-Custom-Tags/blob/Version-0.6/EightBitz's%20Custom%20Tags%20Documentation.pdf) as it contains important details.
 
