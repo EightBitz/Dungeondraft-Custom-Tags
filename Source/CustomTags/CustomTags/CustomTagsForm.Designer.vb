@@ -52,6 +52,8 @@ Partial Class CustomTagsForm
         Me.AssetFolderBrowseButton = New System.Windows.Forms.Button()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveChangesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RevertChangesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreferencesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -64,6 +66,9 @@ Partial Class CustomTagsForm
         Me.DefaultTemplateMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DocumentationMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LicenseMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.READMEMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GitHubLinkLabel = New System.Windows.Forms.LinkLabel()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.VersionLabel = New System.Windows.Forms.Label()
@@ -77,6 +82,9 @@ Partial Class CustomTagsForm
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.TemplateSaveFileDialog = New System.Windows.Forms.SaveFileDialog()
         Me.TemplateOpenFileDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.BrowseMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AssetDataGridViewCheckAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AssetDataGridViewUncheckAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AssetsGroupBox.SuspendLayout()
         CType(Me.AssetDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.AssetDataGridViewContextMenu.SuspendLayout()
@@ -179,20 +187,20 @@ Partial Class CustomTagsForm
         '
         'AssetDataGridViewContextMenu
         '
-        Me.AssetDataGridViewContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AssetDataGridViewCheckSelectedMenuItem, Me.AssetDataGridViewUncheckSelectedMenuItem})
+        Me.AssetDataGridViewContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AssetDataGridViewCheckAllMenuItem, Me.AssetDataGridViewUncheckAllMenuItem, Me.AssetDataGridViewCheckSelectedMenuItem, Me.AssetDataGridViewUncheckSelectedMenuItem})
         Me.AssetDataGridViewContextMenu.Name = "AssetDataGridViewContextMenu"
-        Me.AssetDataGridViewContextMenu.Size = New System.Drawing.Size(168, 48)
+        Me.AssetDataGridViewContextMenu.Size = New System.Drawing.Size(181, 114)
         '
         'AssetDataGridViewCheckSelectedMenuItem
         '
         Me.AssetDataGridViewCheckSelectedMenuItem.Name = "AssetDataGridViewCheckSelectedMenuItem"
-        Me.AssetDataGridViewCheckSelectedMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AssetDataGridViewCheckSelectedMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AssetDataGridViewCheckSelectedMenuItem.Text = "Check Selected"
         '
         'AssetDataGridViewUncheckSelectedMenuItem
         '
         Me.AssetDataGridViewUncheckSelectedMenuItem.Name = "AssetDataGridViewUncheckSelectedMenuItem"
-        Me.AssetDataGridViewUncheckSelectedMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AssetDataGridViewUncheckSelectedMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AssetDataGridViewUncheckSelectedMenuItem.Text = "Uncheck Selected"
         '
         'TagSetsAndTagsGroupBox
@@ -337,15 +345,27 @@ Partial Class CustomTagsForm
         '
         'FileMenuItem
         '
-        Me.FileMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitMenuItem})
+        Me.FileMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BrowseMenuItem, Me.SaveChangesMenuItem, Me.RevertChangesMenuItem, Me.ExitMenuItem})
         Me.FileMenuItem.Name = "FileMenuItem"
         Me.FileMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileMenuItem.Text = "&File"
         '
+        'SaveChangesMenuItem
+        '
+        Me.SaveChangesMenuItem.Name = "SaveChangesMenuItem"
+        Me.SaveChangesMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveChangesMenuItem.Text = "&Save Changes"
+        '
+        'RevertChangesMenuItem
+        '
+        Me.RevertChangesMenuItem.Name = "RevertChangesMenuItem"
+        Me.RevertChangesMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RevertChangesMenuItem.Text = "&Revert Changes"
+        '
         'ExitMenuItem
         '
         Me.ExitMenuItem.Name = "ExitMenuItem"
-        Me.ExitMenuItem.Size = New System.Drawing.Size(93, 22)
+        Me.ExitMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitMenuItem.Text = "E&xit"
         '
         'SettingsToolStripMenuItem
@@ -353,7 +373,7 @@ Partial Class CustomTagsForm
         Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreferencesMenuItem, Me.TemplatesMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
-        Me.SettingsToolStripMenuItem.Text = "Settings"
+        Me.SettingsToolStripMenuItem.Text = "&Settings"
         '
         'PreferencesMenuItem
         '
@@ -407,7 +427,7 @@ Partial Class CustomTagsForm
         '
         'HelpMenuItem
         '
-        Me.HelpMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutMenuItem})
+        Me.HelpMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutMenuItem, Me.DocumentationMenuItem, Me.LicenseMenuItem, Me.READMEMenuItem})
         Me.HelpMenuItem.Name = "HelpMenuItem"
         Me.HelpMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpMenuItem.Text = "&Help"
@@ -415,8 +435,26 @@ Partial Class CustomTagsForm
         'AboutMenuItem
         '
         Me.AboutMenuItem.Name = "AboutMenuItem"
-        Me.AboutMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.AboutMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AboutMenuItem.Text = "&About"
+        '
+        'DocumentationMenuItem
+        '
+        Me.DocumentationMenuItem.Name = "DocumentationMenuItem"
+        Me.DocumentationMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DocumentationMenuItem.Text = "&Documentation"
+        '
+        'LicenseMenuItem
+        '
+        Me.LicenseMenuItem.Name = "LicenseMenuItem"
+        Me.LicenseMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LicenseMenuItem.Text = "&License"
+        '
+        'READMEMenuItem
+        '
+        Me.READMEMenuItem.Name = "READMEMenuItem"
+        Me.READMEMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.READMEMenuItem.Text = "&README"
         '
         'GitHubLinkLabel
         '
@@ -545,6 +583,24 @@ Partial Class CustomTagsForm
         '
         Me.TemplateOpenFileDialog.FileName = "OpenFileDialog1"
         '
+        'BrowseMenuItem
+        '
+        Me.BrowseMenuItem.Name = "BrowseMenuItem"
+        Me.BrowseMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BrowseMenuItem.Text = "&Browse"
+        '
+        'AssetDataGridViewCheckAllMenuItem
+        '
+        Me.AssetDataGridViewCheckAllMenuItem.Name = "AssetDataGridViewCheckAllMenuItem"
+        Me.AssetDataGridViewCheckAllMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AssetDataGridViewCheckAllMenuItem.Text = "Check All"
+        '
+        'AssetDataGridViewUncheckAllMenuItem
+        '
+        Me.AssetDataGridViewUncheckAllMenuItem.Name = "AssetDataGridViewUncheckAllMenuItem"
+        Me.AssetDataGridViewUncheckAllMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AssetDataGridViewUncheckAllMenuItem.Text = "Uncheck All"
+        '
         'CustomTagsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -638,4 +694,12 @@ Partial Class CustomTagsForm
     Friend WithEvents DefaultTemplateMenuItem As ToolStripMenuItem
     Friend WithEvents TemplateSaveFileDialog As SaveFileDialog
     Friend WithEvents TemplateOpenFileDialog As OpenFileDialog
+    Friend WithEvents SaveChangesMenuItem As ToolStripMenuItem
+    Friend WithEvents RevertChangesMenuItem As ToolStripMenuItem
+    Friend WithEvents DocumentationMenuItem As ToolStripMenuItem
+    Friend WithEvents LicenseMenuItem As ToolStripMenuItem
+    Friend WithEvents READMEMenuItem As ToolStripMenuItem
+    Friend WithEvents BrowseMenuItem As ToolStripMenuItem
+    Friend WithEvents AssetDataGridViewCheckAllMenuItem As ToolStripMenuItem
+    Friend WithEvents AssetDataGridViewUncheckAllMenuItem As ToolStripMenuItem
 End Class

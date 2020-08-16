@@ -3,6 +3,7 @@ Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports ImageProcessor
 Imports ImageProcessor.Imaging.Formats
+Imports System.Environment
 
 Public Class CustomTagsForm
 
@@ -28,8 +29,6 @@ Public Class CustomTagsForm
         If AssetFolderTextBox.Text.EndsWith("\") Then AssetFolderTextBox.Text = AssetFolderTextBox.Text.TrimEnd("\")
 
         Dim AssetFolder As String
-        Dim IsFolderNameValid As Boolean
-        Dim DoesFolderExist As Boolean
 
         AssetFolder = AssetFolderTextBox.Text
         If AssetFolder <> GlobalVariables.CurrentFolder Then
@@ -248,7 +247,6 @@ Public Class CustomTagsForm
                 GetTagAssignments(row)
             Next
             GlobalVariables.CurrentFolder = AssetFolder
-            ThumbnailCheckBox.Enabled = True
             If TagSetListBox.Items.Count >= 1 Then TagSetListBox.SelectedIndex = 0
             If TagComboBox.Items.Count >= 1 Then TagComboBox.SelectedIndex = 0
             ShowAssetsComboBox.SelectedIndex = 0
@@ -258,7 +256,8 @@ Public Class CustomTagsForm
 
             AssetDataGridView.Invoke(New MethodInvoker(AddressOf LoadThumbnails))
             If GlobalVariables.FirstLoad Then
-                ApplyPreferences(GlobalVariables.ConfigFile, Override)
+                Dim ConfigFile As String = GlobalVariables.ConfigFolder & "\" & GlobalVariables.ConfigFile
+                ApplyPreferences(ConfigFile, Override)
                 GlobalVariables.FirstLoad = False
             End If
         End If
@@ -421,7 +420,7 @@ Public Class CustomTagsForm
                 Dim row As DataGridViewRow = AssetDataGridView.Rows(e.RowIndex)
                 Dim TagList As String = row.Cells("Tags").ToolTipText
                 Dim SplitList() As String
-                Dim TagMessage As String
+                Dim TagMessage As String = ""
                 If row.Cells("Tags").Value = 0 Then
                     TagMessage = row.Cells("Filename").Value & " has not been assigned to any tags."
                 Else
@@ -465,6 +464,29 @@ Public Class CustomTagsForm
             Next
         End If
         GetTagAssignments(Row)
+    End Sub
+
+    Private Sub AssetDataGridViewCheckAllMenuItem_Click(sender As Object, e As EventArgs) Handles AssetDataGridViewCheckAllMenuItem.Click
+        For Each Row In AssetDataGridView.Rows
+            If Row.Visible Then
+                Row.Cells("Select").Value = True
+                Row.DefaultCellStyle.BackColor = GlobalVariables.SelectedBackColor
+                Row.DefaultCellStyle.ForeColor = GlobalVariables.SelectedForeColor
+                AssetCheckBoxChanged(Row)
+            End If
+        Next
+    End Sub
+
+    Private Sub AssetDataGridViewUnheckAllMenuItem_Click(sender As Object, e As EventArgs) Handles AssetDataGridViewUncheckAllMenuItem.Click
+        Dim Row As DataGridViewRow
+        For Each Row In AssetDataGridView.Rows
+            If Row.Visible Then
+                Row.Cells("Select").Value = False
+                Row.DefaultCellStyle.BackColor = GlobalVariables.UnselectedBackColor
+                Row.DefaultCellStyle.ForeColor = GlobalVariables.UnselectedForeColor
+                AssetCheckBoxChanged(Row)
+            End If
+        Next
     End Sub
 
     Private Sub AssetDataGridViewCheckSelectedMenuItem_Click(sender As Object, e As EventArgs) Handles AssetDataGridViewCheckSelectedMenuItem.Click
@@ -777,7 +799,8 @@ Public Class CustomTagsForm
             End If
 
             If (ExitDialogResults = DialogResult.Yes) Then
-                ApplyPreferences(GlobalVariables.ConfigFile, True)
+                Dim ConfigFile As String = GlobalVariables.ConfigFolder & "\" & GlobalVariables.ConfigFile
+                ApplyPreferences(ConfigFile, True)
                 RefreshLists(AssetFolderTextBox.Text, True)
             ElseIf (ExitDialogResults = DialogResult.No) Then
                 'Nothing to do do here.
@@ -786,15 +809,17 @@ Public Class CustomTagsForm
     End Sub
 
     Private Sub SavePreferencesMenuItem_Click(sender As Object, e As EventArgs) Handles SavePreferencesMenuItem.Click
-        Dim FileExists As Boolean = File.Exists(GlobalVariables.ConfigFile)
+        Dim ConfigFile As String = GlobalVariables.ConfigFolder & "\" & GlobalVariables.ConfigFile
+        Dim FileExists As Boolean = File.Exists(ConfigFile)
         Dim Overwrite As Boolean = True
-        If File.Exists(GlobalVariables.ConfigFile) Then
+        If File.Exists(ConfigFile) Then
             Dim ExitDialogResults = MessageBox.Show("Do you want to overwrite your existing preferences?", "Save Preferences", MessageBoxButtons.YesNo)
             If ExitDialogResults = DialogResult.Yes Then Overwrite = True Else Overwrite = False
         End If
 
         If Overwrite Or Not FileExists Then
-            SavePreferences(GlobalVariables.ConfigFile)
+            If Not Directory.Exists(GlobalVariables.ConfigFolder) Then Directory.CreateDirectory(GlobalVariables.ConfigFolder)
+            SavePreferences(ConfigFile)
             MsgBox("Preferences saved.")
         End If
     End Sub
@@ -803,7 +828,9 @@ Public Class CustomTagsForm
         Dim ExitDialogResults = MessageBox.Show("Restoring default preferences will clear all information, losing all changes since your last save, and will overwrite your existing saved preferences. Are you sure you want to continue?", "Restore Default Preferences", MessageBoxButtons.YesNo)
 
         If (ExitDialogResults = DialogResult.Yes) Then
-            RestoreDefaults(GlobalVariables.ConfigFile)
+            Dim ConfigFile As String = GlobalVariables.ConfigFolder & "\" & GlobalVariables.ConfigFile
+            If Not Directory.Exists(GlobalVariables.ConfigFolder) Then Directory.CreateDirectory(GlobalVariables.ConfigFolder)
+            RestoreDefaults(ConfigFile)
             ClearLists()
         ElseIf (ExitDialogResults = DialogResult.No) Then
             'Nothing to do do here.
@@ -814,20 +841,20 @@ Public Class CustomTagsForm
         SplashPanel.Visible = False
         Me.FormBorderStyle = FormBorderStyle.Sizable
         GlobalVariables.FirstLoad = True
-        LoadPreferencesMenuItem.Enabled = True
 
         Dim ConfigObject As New Newtonsoft.Json.Linq.JObject
-        ConfigObject = LoadPreferences(GlobalVariables.ConfigFile)
+        Dim ConfigFile As String = GlobalVariables.ConfigFolder & "\" & GlobalVariables.ConfigFile
+        ConfigObject = LoadPreferences(ConfigFile)
         If Not ConfigObject Is Nothing Then
-            If Not ConfigObject("asset_folder") Is Nothing Then
-                AssetFolderTextBox.Text = ConfigObject("asset_folder")
-            End If
+            If Not ConfigObject("asset_folder") Is Nothing Then AssetFolderTextBox.Text = ConfigObject("asset_folder")
+            'If Not ConfigObject("show_thumbnails") Is Nothing Then ThumbnailCheckBox.Checked = ConfigObject("show_thumbnails")
         End If
         AssetFolderTextBox_LostFocus(sender, e)
     End Sub
 
     Private Sub SaveTemplateMenuItem_Click(sender As Object, e As EventArgs) Handles SaveTemplateMenuItem.Click
-        Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
+        Dim AppPath As String = GlobalVariables.TemplateFolder
+        If Not Directory.Exists(AppPath) Then Directory.CreateDirectory(AppPath)
         TemplateSaveFileDialog.InitialDirectory = AppPath
         TemplateSaveFileDialog.Filter = "Template Files|*.template_tags"
         Dim ExitDialogResults = TemplateSaveFileDialog.ShowDialog()
@@ -853,7 +880,8 @@ Public Class CustomTagsForm
         End If
 
         If ExitDialogResults = DialogResult.Yes Then
-            Dim AppPath As String = My.Application.Info.DirectoryPath.ToString()
+            Dim AppPath As String = GlobalVariables.TemplateFolder
+            If Not Directory.Exists(AppPath) Then Directory.CreateDirectory(AppPath)
             TemplateOpenFileDialog.InitialDirectory = AppPath
             TemplateOpenFileDialog.Filter = "Template Files|*.template_tags"
             TemplateOpenFileDialog.ShowDialog()
@@ -939,14 +967,43 @@ Public Class CustomTagsForm
             GlobalVariables.TrackChanges = True
         End If
     End Sub
+
+    Private Sub SaveChangesMenuItem_Click(sender As Object, e As EventArgs) Handles SaveChangesMenuItem.Click
+        SaveChangesButton.PerformClick()
+    End Sub
+
+    Private Sub RevertChangesMenuItem_Click(sender As Object, e As EventArgs) Handles RevertChangesMenuItem.Click
+        RevertChangesButton.PerformClick()
+    End Sub
+
+    Private Sub DocumentationMenuItem_Click(sender As Object, e As EventArgs) Handles DocumentationMenuItem.Click
+        Dim DocFile As String = My.Application.Info.DirectoryPath & "\Documentation\EightBitz's Custom Tags Documentation.pdf"
+        System.Diagnostics.Process.Start(DocFile)
+    End Sub
+
+    Private Sub LicenseMenuItem_Click(sender As Object, e As EventArgs) Handles LicenseMenuItem.Click
+        Dim LicenseFile As String = My.Application.Info.DirectoryPath & "\Documentation\LICENSE.html"
+        System.Diagnostics.Process.Start(LicenseFile)
+    End Sub
+
+    Private Sub READMEMenuItem_Click(sender As Object, e As EventArgs) Handles READMEMenuItem.Click
+        Dim READMEFile As String = My.Application.Info.DirectoryPath & "\Documentation\README.html"
+        System.Diagnostics.Process.Start(READMEFile)
+    End Sub
+
+    Private Sub BrowseMenuItem_Click(sender As Object, e As EventArgs) Handles BrowseMenuItem.Click
+        AssetFolderBrowseButton.PerformClick()
+    End Sub
 End Class
 
 Public Class GlobalVariables
     Public Shared Property CurrentFolder As String
     Public Shared Property TagObject
-    Public Shared Property ConfigFile = "CustomTags.config"
-    Public Shared Property MinFormWidth = 1124
-    Public Shared Property MinFormHeight = 700
+    Public Shared Property ConfigFolder As String = GetFolderPath(SpecialFolder.ApplicationData) & "\Custom Tags"
+    Public Shared Property ConfigFile As String = "CustomTags.config"
+    Public Shared Property TemplateFolder As String = GetFolderPath(SpecialFolder.MyDocuments) & "\Custom Tags"
+    Public Shared Property MinFormWidth As Integer = 1124
+    Public Shared Property MinFormHeight As Integer = 700
     Public Shared Property DefaultButtonTop = 609
     Public Shared Property TrackChanges As Boolean
     Public Shared Property FirstLoad As Boolean
