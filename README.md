@@ -1,4 +1,4 @@
-<h1>EightBitz's Custom Tags Tool Version 1.1.0</h1>
+<h1>EightBitz's Custom Tags Tool Version 1.0.1</h1>
 
 <p>What follows is a brief description of what this is and what it does, but please read the full documentation as it contains important details.</p>
 
