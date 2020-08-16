@@ -63,12 +63,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7F5FCE6F79C14A78A4DFDC1FD1AEA19E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -76,6 +70,12 @@
         "Entry"
         {
         "MsmKey" = "8:_A12A07DDCDDB4D5D9121D900D5A85993"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A7D71DC6954B471FAB2017C03BE03415"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -134,6 +134,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -158,6 +166,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -372,10 +388,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7F5FCE6F79C14A78A4DFDC1FD1AEA19E"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12A07DDCDDB4D5D9121D900D5A85993"
             {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\EightBitz's Custom Tags Documentation.pdf"
-            "TargetName" = "8:EightBitz's Custom Tags Documentation.pdf"
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
+            "TargetName" = "8:README.html"
             "Tag" = "8:"
             "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
             "Condition" = "8:"
@@ -392,10 +408,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12A07DDCDDB4D5D9121D900D5A85993"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A7D71DC6954B471FAB2017C03BE03415"
             {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
-            "TargetName" = "8:README.html"
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\EightBitz's Custom Tags Documentation.pdf"
+            "TargetName" = "8:EightBitz's Custom Tags Documentation.pdf"
             "Tag" = "8:"
             "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
             "Condition" = "8:"
