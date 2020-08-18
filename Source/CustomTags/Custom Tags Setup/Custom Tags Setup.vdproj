@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_176979156BBB44F3AA90CBBB2F68019F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1E2BAA5F2671A2737FB9F2A1F3683833"
         "OwnerKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "MsmSig" = "8:_UNDEFINED"
@@ -29,12 +23,6 @@
         {
         "MsmKey" = "8:_1E2BAA5F2671A2737FB9F2A1F3683833"
         "OwnerKey" = "8:_777A26DBD07417AD2C667C295F575640"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1FC8CC295D874F3993CD1D8ACF481C95"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -69,13 +57,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8C08655DF09C4E5986124B14C273B90F"
+        "MsmKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
+        "MsmKey" = "8:_AFFC1EDCA6344E6E9DFDB9893406226D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F91D545BD3774C84AD5D717D8B03825C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDEB5B2B8CA1411EB38E6BD0D1706EFB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -204,26 +204,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_176979156BBB44F3AA90CBBB2F68019F"
-            {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\LICENSE.html"
-            "TargetName" = "8:LICENSE.html"
-            "Tag" = "8:"
-            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1E2BAA5F2671A2737FB9F2A1F3683833"
             {
             "AssemblyRegister" = "3:1"
@@ -253,26 +233,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1FC8CC295D874F3993CD1D8ACF481C95"
-            {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
-            "TargetName" = "8:README.html"
-            "Tag" = "8:"
-            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2DCD2125CA135209D39159B6022D315A"
@@ -408,10 +368,50 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8C08655DF09C4E5986124B14C273B90F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AFFC1EDCA6344E6E9DFDB9893406226D"
+            {
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
+            "TargetName" = "8:README.html"
+            "Tag" = "8:"
+            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F91D545BD3774C84AD5D717D8B03825C"
             {
             "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\EightBitz's Custom Tags Documentation.pdf"
             "TargetName" = "8:EightBitz's Custom Tags Documentation.pdf"
+            "Tag" = "8:"
+            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FDEB5B2B8CA1411EB38E6BD0D1706EFB"
+            {
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\LICENSE.html"
+            "TargetName" = "8:LICENSE.html"
             "Tag" = "8:"
             "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
             "Condition" = "8:"
