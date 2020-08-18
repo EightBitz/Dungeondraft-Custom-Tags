@@ -173,7 +173,7 @@ Module AssetInfoModule
                 For Each Asset In FileAssets
                     Duplicate = False
                     For Each AddedAsset In AllAssets
-                        If Asset.Name = AddedAsset.Name Then
+                        If Asset.TagPath = AddedAsset.TagPath Then
                             Duplicate = True
                             Exit For
                         End If
