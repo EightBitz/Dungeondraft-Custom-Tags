@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_176979156BBB44F3AA90CBBB2F68019F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1E2BAA5F2671A2737FB9F2A1F3683833"
         "OwnerKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "MsmSig" = "8:_UNDEFINED"
@@ -27,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1FC8CC295D874F3993CD1D8ACF481C95"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2DCD2125CA135209D39159B6022D315A"
         "OwnerKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,18 +46,6 @@
         "Entry"
         {
         "MsmKey" = "8:_5868A856D02044F790460FBE8C4F6DDD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5F6AD2ADB20A420FA04E2C94A64B61B8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_61DD4FB6976E4E71A64DFD9922AAE908"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -69,13 +69,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
+        "MsmKey" = "8:_8C08655DF09C4E5986124B14C273B90F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A12A07DDCDDB4D5D9121D900D5A85993"
+        "MsmKey" = "8:_9E366888CAD143FE90E8183029C63DCE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -204,6 +204,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_176979156BBB44F3AA90CBBB2F68019F"
+            {
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\LICENSE.html"
+            "TargetName" = "8:LICENSE.html"
+            "Tag" = "8:"
+            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1E2BAA5F2671A2737FB9F2A1F3683833"
             {
             "AssemblyRegister" = "3:1"
@@ -233,6 +253,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1FC8CC295D874F3993CD1D8ACF481C95"
+            {
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
+            "TargetName" = "8:README.html"
+            "Tag" = "8:"
+            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2DCD2125CA135209D39159B6022D315A"
@@ -272,46 +312,6 @@
             "TargetName" = "8:libwebp.dll"
             "Tag" = "8:"
             "Folder" = "8:_2A686C7D679D4B3B8AA8EE2BCCAF3921"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F6AD2ADB20A420FA04E2C94A64B61B8"
-            {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\LICENSE.html"
-            "TargetName" = "8:LICENSE.html"
-            "Tag" = "8:"
-            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61DD4FB6976E4E71A64DFD9922AAE908"
-            {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\EightBitz's Custom Tags Documentation.pdf"
-            "TargetName" = "8:EightBitz's Custom Tags Documentation.pdf"
-            "Tag" = "8:"
-            "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -408,10 +408,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12A07DDCDDB4D5D9121D900D5A85993"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8C08655DF09C4E5986124B14C273B90F"
             {
-            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\README.html"
-            "TargetName" = "8:README.html"
+            "SourcePath" = "8:..\\CustomTags\\Resources\\Documentation\\EightBitz's Custom Tags Documentation.pdf"
+            "TargetName" = "8:EightBitz's Custom Tags Documentation.pdf"
             "Tag" = "8:"
             "Folder" = "8:_4E007AC7CDE1498AB051943ACB282D78"
             "Condition" = "8:"
