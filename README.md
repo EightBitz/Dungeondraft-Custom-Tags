@@ -12,6 +12,9 @@
 <li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.1.1.zip">Download the Zip archive</a>.</li>
 <li>Extract the folder.</li>
 <li>Run Setup.exe</li>
+<li>If you have a previous version installed, you will need to uninstall it.</li>
+<li>The “%appdata%\Custom Tags” folder, which contains your preferences file, should remain intact, but you can back it up if you want to make certain.</li>
+<li>The “Custom Tags” folder in your “Documents” folder should also remain intact, but you can back up that one if you like as well. This folder contains your tag templates.</li>
 <li>Double click the "Custom Tags" desktop icon.</li>
 </ol>
 
