@@ -1,38 +1,85 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<title>EightBitz's Custom Tags Tool README</title>
+<title>EIGHTBITZ'S DUNGEONDRAFT TOOLS README</title>
 </head>
 <body>
+<h1>EightBitz's Dungeondraft Tools</h1>
 
-<h1>EightBitz's Custom Tags Tool</h1>
-
-<p>Copyright Â© 2021 EightBitz, <a href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons CC-BY-NC</a></p>
+<p>Copyright © 2021 EightBitz, <a href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons CC-BY-NC</a></p>
 
 <p>What follows is a brief description of what this is and what it does, but please read the full documentation as it contains important details.</p>
 
-<p>Contact: <a href="mailto:eightbitz73@outlook.com">eightbitz73@outlook.com</a></p>
+    <h2>Getting Started</h2>
 
-<h2>Getting Started</h2>
-<p>To use this program:</p>
-<ol>
-<li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.3.zip">Download the Zip archive</a>.</li>
-<li>Extract the folder.</li>
-<li>Run Setup.exe</li>
-<li>Double click the "Custom Tags" desktop icon.</li>
-</ol>
+    <p>To use this program:</p>
+    <ol>
+        <li><a href="https://github.com/EightBitz/Dungeondraft-Tools/archive/Version-4.3.zip">Download the Zip archive</a>.</li>
+        <li>Extract the folder.</li>
+        <li>Run Setup.exe</li>
+        <li>Double click the "DDTools" desktop icon.</li>
+    </ol>
 
-<h2>What Does it Do?</h2>
+        <h2>What Does it Do?</h2>
 
-<p>This program offers you a point-and-click interface to create/modify your own, customized default.dungeondraft_tags files for your own, custom asset packs. You do the pointing and clicking, and the program generates a valid JSON file that matches your selections.</p>
-<p>If you're looking for my other Dungeondraft tools, <a href="https://github.com/EightBitz/Dungeondraft-Tools">those can be found here.</a></p>
+        This program offers six tools to facilitate creating and managing custom asset packs for Dungeondraft.
+        <ul>
+            <li>Tag assets</li>
+            <li>Color Theme: Apply Theme to Map</li>
+            <li>Color Theme: Create Theme from Map</li>
+            <li>Convert Assets</li>
+            <li>Convert Packs</li>
+            <li>Copy Assets</li>
+            <li>Copy Tiles</li>
+            <li>Data Files</li>
+            <li>Pack Assets</li>
+            <li>Unpack Assets</li>
+        </ul>
 
-<h2>Credits</h2>
-<p><strong>NoralKu:</strong> Huge thanks to Noral Kuhlmann (NoralKu on the Megasploot Discord server) for getting thumbnails to work. The code I had in place was sluggish and buggy, but Noral made it work like a pro.</p>
+    <p>If you're looking for my Custom Tags tool, <a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags">that can be found here</a>.</p>
 
-<p><strong>Nexoness:</strong> Thanks to Nexoness on Discord for the new logo.</p>
+    <h3>Tag Assets</h3>
 
-<h2>License</h2>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
+    <p>For people who want to create their own custom asset packs, the Tag Assets tool will create a properly formatted default.dungeondraft_tags file. This is the file that Dungeondraft uses to determine which assets in the object library are associated with which tags.</p>
+
+    <h3>Color Theme: Apply Theme to Map</h3>
+    
+    <p>This tool will allow you to apply a previously saved color theme to a selected map file.</p>
+    
+    <h3>Color Theme: Create Theme from Map</h3>
+    
+    <p>This tool will allow you to create a color theme from a selected map file.</p>
+    
+    <h3>Convert Assets</h3>
+
+    <p>The Convert Assets tool will convert supported image formats in selected folders to .webp format. .webp offers lossless compression, so the files on disk end up being smaller. That being said, this will not save resources in Dungeondraft, as when .webp files are loaded into memory, they are uncompressed. I added this function at the suggestion of someone on the Dungeondraft Discord server. Whether or not you find it ultimately beneficial, I will leave to you.</p>
+
+    <h3>Convert Packs</h3>
+
+    <p>This works similar to the Convert Assets tool, except it works on files that are already packed. This tool calls dungeondraft-unpack.exe to unpack selected files, then it calls ImageMagick to convert assets to webp, then it repacks the converted asset folders.</p>
+
+    <h3>Copy Assets</h3>
+
+    <p>This tool is primarily designed to copy Campaign Cartographer 3 Plus (CC3+) assets into a textures\objects and/or textures\portals folder structure for Dungeondraft. This tool will work for other assets as well, but Campaign Cartographer has two important naming conventions that this tool uses to manage how it copies assets.</p>
+
+    <h3>Copy Tiles</h3>
+
+    <p>This tool is similar to Copy Assets, except that it allows you to copy assets as patterns, terrain or tilesets.</p>
+
+    <h3>Data Files</h3>
+
+    <p>This tool allows you to easily create and manage data files for tilesets and walls.</p>
+
+    <h3>Map Details</h3>
+
+    <p>This tool provides details for selected maps, such as when they were created, which version of Dungeondraft they were created with, which cusom asset packs they use, and which assets they use from those asset packs.</p>
+
+    <h3>Pack Assets</h3>
+
+    <p>This tool will create .dungeondraft_pack files from selected asset folders.</p>
+
+    <h3>Unpack Assets</h3>
+
+    <p>This tool will unpack .dungeondraft_pack files.</p>
 </body>
 </html> 
