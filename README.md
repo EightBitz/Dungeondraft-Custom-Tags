@@ -1,20 +1,17 @@
 <h1>EightBitz's Custom Tags Tool</h1>
 
-<p>What follows is a brief description of what this is and what it does, but please read the full documentation as it contains important details.</p>
+<p>Copyright © 2021 EightBitz, <a href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons CC-BY-NC</a></p>
 
-<p>Copyright © 2020 EightBitz, <a href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons CC-BY-NC</a></p>
+<p>What follows is a brief description of what this is and what it does, but please read the full documentation as it contains important details.</p>
 
 <p>Contact: <a href="mailto:eightbitz73@outlook.com">eightbitz73@outlook.com</a></p>
 
 <h2>Getting Started</h2>
 <p>To use this program:</p>
 <ol>
-<li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.2.1.zip">Download the Zip archive</a>.</li>
+<li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.3.zip">Download the Zip archive</a>.</li>
 <li>Extract the folder.</li>
 <li>Run Setup.exe</li>
-<li>If you have a previous version installed, you will need to uninstall it.</li>
-<li>The “%appdata%\Custom Tags” folder, which contains your preferences file, should remain intact, but you can back it up if you want to make certain.</li>
-<li>The “Custom Tags” folder in your “Documents” folder should also remain intact, but you can back up that one if you like as well. This folder contains your tag templates.</li>
 <li>Double click the "Custom Tags" desktop icon.</li>
 </ol>
 
@@ -30,6 +27,3 @@
 
 <h2>License</h2>
 <p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
-
-<h2>Screenshot</h2>
-<img src="https://github.com/EightBitz/Dungeondraft-Custom-Tags/tree/Version-1.1.0/Screenshots/Custom_Tags.png" alt="Custom Tags Screenshot">
