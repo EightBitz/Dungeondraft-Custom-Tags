@@ -9,7 +9,7 @@
 <h2>Getting Started</h2>
 <p>To use this program:</p>
 <ol>
-<li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.3.1.zip">Download the Zip archive</a>.</li>
+<li><a href="https://github.com/EightBitz/Dungeondraft-Custom-Tags/archive/Version-1.4.zip">Download the Zip archive</a>.</li>
 <li>Extract the folder.</li>
 <li>Run Setup.exe</li>
 <li>Double click the "Custom Tags" desktop icon.</li>
